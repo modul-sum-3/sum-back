@@ -8,6 +8,8 @@ services:
       - ACCEPT_EULA=Y
     ports:
       - "5434:1433"
+    volumes:
+      - mssqldata:/var/opt/mssql
   mongo:
     image: mongo
     restart: always
