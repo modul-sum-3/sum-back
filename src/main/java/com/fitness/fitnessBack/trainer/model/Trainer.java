@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Data
 public class Trainer {
     @Id
+    @GeneratedValue
     private long id;
 
     @NotBlank
