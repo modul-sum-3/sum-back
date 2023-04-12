@@ -40,7 +40,6 @@ public class Employee {
     private LocalDate date_of_birth;
 
     @ManyToOne
-    @MapsId
-    @JoinColumn(name="club_id", nullable=false)
+    @JoinColumn(name="club_id", nullable = false)
     public Club club;
 }

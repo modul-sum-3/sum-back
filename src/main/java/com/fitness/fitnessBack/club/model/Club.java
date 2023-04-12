@@ -12,7 +12,6 @@ import lombok.Data;
 public class Club {
     @Id
     @GeneratedValue
-    @PrimaryKeyJoinColumn
     private long id;
 
     @NotBlank
