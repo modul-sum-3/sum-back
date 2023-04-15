@@ -34,4 +34,16 @@ public class Trainer {
 
     @Past
     private LocalDate date_of_birth;
+
+    public Trainer(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.phone_number = phone_number;
+        this.date_of_birth = date_of_birth;
+    }
+
+    public Trainer() {
+
+    }
 }

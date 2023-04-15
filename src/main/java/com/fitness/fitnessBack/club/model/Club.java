@@ -18,4 +18,12 @@ public class Club {
     @NotEmpty(message = "name can't be empty")
     @Column(name = "name", nullable = false)
     private String name;
+
+    public Club(String name) {
+        this.name = name;
+    }
+
+    public Club() {
+
+    }
 }
