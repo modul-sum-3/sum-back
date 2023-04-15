@@ -26,4 +26,10 @@ public class TrainerService {
     public Trainer saveTrainer(Trainer trainer) {
         return trainerRepository.save(trainer);
     }
+
+    public Trainer deleteTrainer(Long id){
+        Trainer result = trainerRepository.findById(id).orElseThrow();
+        trainerRepository.delete(result);
+        return result;
+    }
 }

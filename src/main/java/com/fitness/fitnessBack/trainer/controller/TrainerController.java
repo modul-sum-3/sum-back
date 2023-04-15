@@ -28,4 +28,9 @@ public class TrainerController {
     public Trainer saveTrainer(@Valid @RequestBody Trainer trainer) {
         return trainerService.saveTrainer(trainer);
     }
+
+    @DeleteMapping("/{id}")
+    public Trainer deleteTrainer(@PathVariable(value = "id") Long id) {
+        return trainerService.deleteTrainer(id);
+    }
 }

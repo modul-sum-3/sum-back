@@ -1,15 +1,19 @@
-package com.fitness.fitnessBack.trainer.model;
+package com.fitness.fitnessBack.empolyee.model;
 
+import com.fitness.fitnessBack.club.model.Club;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Past;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Trainer")
+@Table(name = "Employee")
 @Data
-public class Trainer {
+public class Employee {
     @Id
     @GeneratedValue
     private long id;
@@ -35,15 +39,20 @@ public class Trainer {
     @Past
     private LocalDate date_of_birth;
 
-    public Trainer(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth) {
+    @ManyToOne
+    @JoinColumn(name="club_id", nullable = false)
+    public Club club;
+
+    public Employee(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth, Club club) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.phone_number = phone_number;
         this.date_of_birth = date_of_birth;
+        this.club = club;
     }
 
-    public Trainer() {
+    public Employee() {
 
     }
 }
