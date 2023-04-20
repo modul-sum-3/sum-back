@@ -1,5 +1,9 @@
 package com.fitness.fitnessBack.room.model;
 
+import java.util.List;
+
+import com.fitness.fitnessBack.category.model.Category;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,11 +25,16 @@ public class Room {
     @NotBlank
     @NotEmpty(message = "icon can't be empty")
     @Column(name = "icon", nullable = false)
-    private String icon;
+    private List<String> icon;
 
-    public Room(String type, String icon) {
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    public List<Category> categoryList;
+
+    public Room(String type, List<String> icon, List<Category> categoryList) {
         this.type = type;
         this.icon = icon;
+        this.categoryList = categoryList;
     }
 
     public Room() {
