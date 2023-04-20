@@ -4,6 +4,8 @@ import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
 import com.fitness.fitnessBack.room.model.Room;
 import com.fitness.fitnessBack.room.repository.RoomRepository;
+import com.fitness.fitnessBack.category.model.Category;
+import com.fitness.fitnessBack.category.repository.CategoryRepository;
 import com.fitness.fitnessBack.empolyee.model.Employee;
 import com.fitness.fitnessBack.empolyee.repository.EmployeeRepository;
 import com.fitness.fitnessBack.trainer.model.Trainer;
@@ -32,6 +34,9 @@ public class FitnessBackApplication {
 	@Autowired
 	private RoomRepository roomRepository;
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(FitnessBackApplication.class, args);
 
@@ -40,6 +45,8 @@ public class FitnessBackApplication {
 	private List<Trainer> trainerList = new ArrayList<>();
 	private List<Club> clubs = new ArrayList<>();
 	private List<Room> rooms = new ArrayList<>();
+	private List<Category> categories = new ArrayList<>();
+	private List<String> icons = new ArrayList<>();
 
 	private List<Employee> employees = new ArrayList<>();
 
@@ -49,7 +56,11 @@ public class FitnessBackApplication {
 					LocalDate.of(1999, i, 1)));
 		}
 		for (int i = 1; i <= 10; i++) {
-			rooms.add(new Room("name" + i, "some_icon_url"));
+			categories.add(new Category("name" + i));
+		}
+
+		for (int i = 1; i <= 10; i++) {
+			rooms.add(new Room("name" + i, icons, categories));
 		}
 		for (int i = 1; i <= 3; i++) {
 			clubs.add(new Club("name" + i, rooms.get(i - 1)));
@@ -67,5 +78,6 @@ public class FitnessBackApplication {
 		clubRepository.saveAll(clubs);
 		employeeRepository.saveAll(employees);
 		roomRepository.saveAll(rooms);
+		categoryRepository.saveAll(categories);
 	}
 }
