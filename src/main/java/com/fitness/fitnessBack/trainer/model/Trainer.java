@@ -6,13 +6,19 @@ import lombok.Data;
 
 import java.time.LocalDate;
 
+import com.fitness.fitnessBack.user.model.User;
+
 @Entity
 @Table(name = "Trainer")
 @Data
 public class Trainer {
     @Id
-    @GeneratedValue
     private long id;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private User user;
 
     @NotBlank
     @NotEmpty(message = "firstname can't be empty")
@@ -35,12 +41,17 @@ public class Trainer {
     @Past
     private LocalDate date_of_birth;
 
-    public Trainer(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth) {
+    public Trainer(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth,
+            User user) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.phone_number = phone_number;
         this.date_of_birth = date_of_birth;
+        this.user = user;
+        if (user != null) {
+            this.id = user.getId();
+        }
     }
 
     public Trainer() {

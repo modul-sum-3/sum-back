@@ -52,23 +52,23 @@ public class FitnessBackApplication {
 
 	private void saveList() {
 		for (int i = 1; i <= 10; i++) {
-			trainerList.add(new Trainer("Jan", "Kowalski" + i, "email" + i + "@google.com", "0000000",
+			users.add(new User("kowalski123" + i, "emailKlienta" + i + "@google.com", UserRole.CLIENT,
 					LocalDate.of(1999, i, 1)));
+		}
+		for (int i = 1; i <= 2; i++) {
+			trainerList.add(new Trainer("Jan", "Kowalski" + i, "email" + i + "@google.com", "0000000",
+					LocalDate.of(1999, i, 1), users.get(i - 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
 			clubs.add(new Club("name" + i));
 		}
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailKlienta" + i + "@google.com", "0000000",
-					LocalDate.of(1999, i, 1), clubs.get(i - 1), users.get(i - 1)));
+					LocalDate.of(1999, i, 1), clubs.get(i - 1), users.get(i + 1)));
 		}
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 5; i++) {
 			clientList.add(new Client("Karol", "Kowalski" + i, "emailKlienta" + i + "@google.com", "0000000",
-					LocalDate.of(1999, i, 1), new Random().nextDouble()));
-		}
-		for (int i = 1; i <= 10; i++) {
-			users.add(new User("karol123" + i, "emailKlienta" + i + "@google.com", UserRole.CLIENT,
-					LocalDate.of(1999, i, 1)));
+					LocalDate.of(1999, i, 1), new Random().nextDouble(), users.get(i + 4)));
 		}
 	}
 
