@@ -1,10 +1,11 @@
 package com.fitness.fitnessBack.club.model;
 
+import com.fitness.fitnessBack.room.model.Room;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-
 
 @Entity
 @Table(name = "Club")
@@ -19,8 +20,13 @@ public class Club {
     @Column(name = "name", nullable = false)
     private String name;
 
-    public Club(String name) {
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    public Room room;
+
+    public Club(String name, Room room) {
         this.name = name;
+        this.room = room;
     }
 
     public Club() {
