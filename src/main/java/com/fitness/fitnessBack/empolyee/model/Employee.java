@@ -40,10 +40,11 @@ public class Employee {
     private LocalDate date_of_birth;
 
     @ManyToOne
-    @JoinColumn(name="club_id", nullable = false)
+    @JoinColumn(name = "club_id", nullable = false)
     public Club club;
 
-    public Employee(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth, Club club) {
+    public Employee(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth,
+            Club club) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;

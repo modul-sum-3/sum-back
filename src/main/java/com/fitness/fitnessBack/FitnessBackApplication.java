@@ -55,12 +55,13 @@ public class FitnessBackApplication {
 			trainerList.add(new Trainer("Jan", "Kowalski" + i, "email" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1)));
 		}
+
 		for (int i = 1; i <= 10; i++) {
-			categories.add(new Category("name" + i));
+			rooms.add(new Room("name" + i, icons));
 		}
 
 		for (int i = 1; i <= 10; i++) {
-			rooms.add(new Room("name" + i, icons, categories));
+			categories.add(new Category("name" + i, rooms));
 		}
 		for (int i = 1; i <= 3; i++) {
 			clubs.add(new Club("name" + i, rooms.get(i - 1)));

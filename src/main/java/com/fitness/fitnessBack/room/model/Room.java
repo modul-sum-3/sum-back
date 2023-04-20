@@ -2,8 +2,6 @@ package com.fitness.fitnessBack.room.model;
 
 import java.util.List;
 
-import com.fitness.fitnessBack.category.model.Category;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,14 +25,9 @@ public class Room {
     @Column(name = "icon", nullable = false)
     private List<String> icon;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    public List<Category> categoryList;
-
-    public Room(String type, List<String> icon, List<Category> categoryList) {
+    public Room(String type, List<String> icon) {
         this.type = type;
         this.icon = icon;
-        this.categoryList = categoryList;
     }
 
     public Room() {

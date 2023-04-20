@@ -1,5 +1,9 @@
 package com.fitness.fitnessBack.category.model;
 
+import java.util.List;
+
+import com.fitness.fitnessBack.room.model.Room;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -18,8 +22,13 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    public Category(String name) {
+    @OneToMany(mappedBy = "category")
+    @JoinColumn(name = "room_id", nullable = false)
+    public List<Room> roomList;
+
+    public Category(String name, List<Room> roomList) {
         this.name = name;
+        this.roomList = roomList;
     }
 
     public Category() {
