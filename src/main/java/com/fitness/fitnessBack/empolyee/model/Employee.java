@@ -1,6 +1,8 @@
 package com.fitness.fitnessBack.empolyee.model;
 
 import com.fitness.fitnessBack.club.model.Club;
+import com.fitness.fitnessBack.user.model.User;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -15,8 +17,12 @@ import java.time.LocalDate;
 @Data
 public class Employee {
     @Id
-    @GeneratedValue
     private long id;
+
+    @MapsId
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private User user;
 
     @NotBlank
     @NotEmpty(message = "firstname can't be empty")
@@ -31,7 +37,6 @@ public class Employee {
     @Email
     @NotBlank
     @NotEmpty(message = "email can't be empty")
-    @Column(name = "email_address", nullable = false)
     private String email;
 
     private String phone_number;
@@ -40,16 +45,22 @@ public class Employee {
     private LocalDate date_of_birth;
 
     @ManyToOne
-    @JoinColumn(name="club_id", nullable = false)
+    @JoinColumn(name = "club_id", nullable = false)
     public Club club;
 
-    public Employee(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth, Club club) {
+    public Employee(String first_name, String last_name, String email, String phone_number, LocalDate date_of_birth,
+            Club club, User user) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.phone_number = phone_number;
         this.date_of_birth = date_of_birth;
         this.club = club;
+        this.user = user;
+        if (user != null) {
+            this.id = user.getId();
+        }
+
     }
 
     public Employee() {

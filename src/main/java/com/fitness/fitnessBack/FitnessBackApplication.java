@@ -2,6 +2,9 @@ package com.fitness.fitnessBack;
 
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.client.repository.ClientRepository;
+import com.fitness.fitnessBack.user.model.User;
+import com.fitness.fitnessBack.user.model.User.UserRole;
+import com.fitness.fitnessBack.user.repository.UserRepository;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
 import com.fitness.fitnessBack.empolyee.model.Employee;
@@ -33,6 +36,9 @@ public class FitnessBackApplication {
 	@Autowired
 	private ClientRepository clientRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(FitnessBackApplication.class, args);
 
@@ -41,7 +47,7 @@ public class FitnessBackApplication {
 	private List<Client> clientList = new ArrayList<>();
 	private List<Trainer> trainerList = new ArrayList<>();
 	private List<Club> clubs = new ArrayList<>();
-
+	private List<User> users = new ArrayList<>();
 	private List<Employee> employees = new ArrayList<>();
 
 	private void saveList() {
@@ -54,11 +60,15 @@ public class FitnessBackApplication {
 		}
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailKlienta" + i + "@google.com", "0000000",
-					LocalDate.of(1999, i, 1), clubs.get(i - 1)));
+					LocalDate.of(1999, i, 1), clubs.get(i - 1), users.get(i - 1)));
 		}
 		for (int i = 1; i <= 10; i++) {
 			clientList.add(new Client("Karol", "Kowalski" + i, "emailKlienta" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1), new Random().nextDouble()));
+		}
+		for (int i = 1; i <= 10; i++) {
+			users.add(new User("karol123" + i, "emailKlienta" + i + "@google.com", UserRole.CLIENT,
+					LocalDate.of(1999, i, 1)));
 		}
 	}
 
@@ -69,5 +79,6 @@ public class FitnessBackApplication {
 		clubRepository.saveAll(clubs);
 		employeeRepository.saveAll(employees);
 		clientRepository.saveAll(clientList);
+		userRepository.saveAll(users);
 	}
 }
