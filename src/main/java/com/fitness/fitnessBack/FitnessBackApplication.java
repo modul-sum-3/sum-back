@@ -45,8 +45,9 @@ public class FitnessBackApplication {
 	private List<Trainer> trainerList = new ArrayList<>();
 	private List<Club> clubs = new ArrayList<>();
 	private List<Room> rooms = new ArrayList<>();
+	private List<Room> rooms2 = new ArrayList<>();
 	private List<Category> categories = new ArrayList<>();
-	private List<String> icons = new ArrayList<>();
+	private byte[] icons;
 
 	private List<Employee> employees = new ArrayList<>();
 
@@ -55,16 +56,14 @@ public class FitnessBackApplication {
 			trainerList.add(new Trainer("Jan", "Kowalski" + i, "email" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1)));
 		}
-
-		for (int i = 1; i <= 10; i++) {
-			rooms.add(new Room("name" + i, icons));
-		}
-
-		for (int i = 1; i <= 10; i++) {
-			categories.add(new Category("name" + i, rooms));
+		for (int i = 1; i <= 3; i++) {
+			clubs.add(new Club("name" + i));
 		}
 		for (int i = 1; i <= 3; i++) {
-			clubs.add(new Club("name" + i, rooms.get(i - 1)));
+			rooms.add(new Room("name" + i, icons,clubs.get(1)));
+		}
+		for (int i = 1; i <= 3; i++) {
+			categories.add(new Category("name" + i, rooms));
 		}
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailKlienta" + i + "@google.com", "0000000",
@@ -78,7 +77,7 @@ public class FitnessBackApplication {
 		trainerRepository.saveAll(trainerList);
 		clubRepository.saveAll(clubs);
 		employeeRepository.saveAll(employees);
-		roomRepository.saveAll(rooms);
 		categoryRepository.saveAll(categories);
+		roomRepository.saveAll(rooms);
 	}
 }

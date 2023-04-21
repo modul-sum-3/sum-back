@@ -22,9 +22,8 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    @JoinColumn(name = "room_id", nullable = false)
-    public List<Room> roomList;
+    @ManyToMany(cascade=CascadeType.ALL)
+    private List<Room> roomList;
 
     public Category(String name, List<Room> roomList) {
         this.name = name;

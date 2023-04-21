@@ -1,7 +1,7 @@
 package com.fitness.fitnessBack.room.model;
 
-import java.util.List;
 
+import com.fitness.fitnessBack.club.model.Club;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -20,14 +20,19 @@ public class Room {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @NotBlank
-    @NotEmpty(message = "icon can't be empty")
-    @Column(name = "icon", nullable = false)
-    private List<String> icon;
+    //@NotEmpty(message = "icon can't be empty")
+    @Column(name = "icon", nullable = true)
+    private byte[] icon;
 
-    public Room(String type, List<String> icon) {
+    @ManyToOne
+    @JoinColumn(name="club_id", nullable = false)
+    public Club club;
+
+
+    public Room(String type, byte[] icon,Club club) {
         this.type = type;
         this.icon = icon;
+        this.club = club;
     }
 
     public Room() {
