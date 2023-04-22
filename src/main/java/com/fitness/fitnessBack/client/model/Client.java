@@ -31,7 +31,7 @@ public class Client {
     private Gender gender;
 
     @Past
-    private LocalDate Date_of_birth;
+    private LocalDate date_of_birth;
 
     @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$", message = "must be a number or null")
     private String phoneNumber;
@@ -45,12 +45,14 @@ public class Client {
     @NotNull
     private Double Balance;
 
-    public Client(String first_name, String last_name, Gender gender, String phoneNumber, String email) {
+    public Client(String first_name, String last_name, String phoneNumber, String email,LocalDate date_of_birth) {
         this.first_name = first_name;
         this.last_name = last_name;
-        this.gender = gender;
+        this.gender = Gender.MALE;
+        this.date_of_birth = date_of_birth;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.Balance = 0.0;
     }
 
     public Client() {
