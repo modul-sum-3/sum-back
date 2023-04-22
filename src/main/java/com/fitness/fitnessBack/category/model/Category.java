@@ -1,4 +1,8 @@
-package com.fitness.fitnessBack.club.model;
+package com.fitness.fitnessBack.category.model;
+
+import java.util.List;
+
+import com.fitness.fitnessBack.room.model.Room;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -6,9 +10,9 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Entity
-@Table(name = "Club")
+@Table(name = "Category")
 @Data
-public class Club {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -18,13 +22,15 @@ public class Club {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @ManyToMany(cascade=CascadeType.ALL)
+    private List<Room> roomList;
 
-
-    public Club(String name) {
+    public Category(String name, List<Room> roomList) {
         this.name = name;
+        this.roomList = roomList;
     }
 
-    public Club() {
+    public Category() {
 
     }
 }

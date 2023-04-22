@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Data
 public class Trainer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank
