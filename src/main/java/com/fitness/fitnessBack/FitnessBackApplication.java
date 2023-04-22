@@ -1,5 +1,7 @@
 package com.fitness.fitnessBack;
 
+import com.fitness.fitnessBack.client.model.Client;
+import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
 import com.fitness.fitnessBack.room.model.Room;
@@ -37,6 +39,9 @@ public class FitnessBackApplication {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	@Autowired
+	private ClientRepository clientRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(FitnessBackApplication.class, args);
 
@@ -45,7 +50,10 @@ public class FitnessBackApplication {
 	private List<Trainer> trainerList = new ArrayList<>();
 	private List<Club> clubs = new ArrayList<>();
 	private List<Room> rooms = new ArrayList<>();
+
 	private List<Room> rooms2 = new ArrayList<>();
+
+	private List<Client> clients = new ArrayList<>();
 	private List<Category> categories = new ArrayList<>();
 	private byte[] icons;
 
@@ -53,7 +61,7 @@ public class FitnessBackApplication {
 
 	private void saveList() {
 		for (int i = 1; i <= 10; i++) {
-			trainerList.add(new Trainer("Jan", "Kowalski" + i, "email" + i + "@google.com", "0000000",
+			trainerList.add(new Trainer("Jan", "Kowalski" + i, "emailTrener" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
@@ -66,14 +74,19 @@ public class FitnessBackApplication {
 			categories.add(new Category("name" + i, rooms));
 		}
 		for (int i = 1; i <= 3; i++) {
-			employees.add(new Employee("Karol", "Kowalski" + i, "emailKlienta" + i + "@google.com", "0000000",
+			employees.add(new Employee("Karol", "Kowalski" + i, "emailEmployee" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1), clubs.get(i - 1)));
+		}
+		for (int i = 1; i <= 3; i++) {
+			clients.add(new Client("Karol", "Kowalski" + i , "+48000100100","emailKlienta" + i + "@google.com",
+					LocalDate.of(1999, i, 1)));
 		}
 	}
 
 	@EventListener
 	public void onReady(ApplicationReadyEvent e) {
 		saveList();
+		clientRepository.saveAll(clients);
 		trainerRepository.saveAll(trainerList);
 		clubRepository.saveAll(clubs);
 		employeeRepository.saveAll(employees);
