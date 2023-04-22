@@ -5,7 +5,9 @@ import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import lombok.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.ArrayList;
@@ -37,7 +39,6 @@ public class TrainingService {
         trainingRepository.delete(result);
         return result;
     }
-    // TODO: Limit size exception
     public Training addClient(Long TrainingID, Client client){
         Training training = trainingRepository.findById(TrainingID).orElseThrow();
         Client toAdd = clientRepository.getClientByEmailIgnoreCase(client.getEmail());
@@ -51,7 +52,7 @@ public class TrainingService {
             trainingRepository.save(training);
             return training;
         }
-        throw new RuntimeException("On space in Training");
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Training limit is full!");
 
     }
 }
