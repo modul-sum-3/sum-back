@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class Club {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank

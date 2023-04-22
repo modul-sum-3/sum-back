@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class Room {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank

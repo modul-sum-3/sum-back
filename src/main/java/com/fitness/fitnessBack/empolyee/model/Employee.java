@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Data
 public class Employee {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank
