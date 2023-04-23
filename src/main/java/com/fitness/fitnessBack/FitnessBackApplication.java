@@ -12,6 +12,8 @@ import com.fitness.fitnessBack.empolyee.model.Employee;
 import com.fitness.fitnessBack.empolyee.repository.EmployeeRepository;
 import com.fitness.fitnessBack.trainer.model.Trainer;
 import com.fitness.fitnessBack.trainer.repository.TrainerRepository;
+import com.fitness.fitnessBack.training.model.Training;
+import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +21,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +46,9 @@ public class FitnessBackApplication {
 	@Autowired
 	private ClientRepository clientRepository;
 
+	@Autowired
+	private TrainingRepository trainingRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(FitnessBackApplication.class, args);
 
@@ -55,6 +62,8 @@ public class FitnessBackApplication {
 
 	private List<Client> clients = new ArrayList<>();
 	private List<Category> categories = new ArrayList<>();
+
+	private List<Training> trainings = new ArrayList<>();
 	private byte[] icons;
 
 	private List<Employee> employees = new ArrayList<>();
@@ -81,6 +90,10 @@ public class FitnessBackApplication {
 			clients.add(new Client("Karol", "Kowalski" + i , "+48000100100","emailKlienta" + i + "@google.com",
 					LocalDate.of(1999, i, 1)));
 		}
+		for (int i = 1; i <= 3; i++) {
+			trainings.add(new Training(clubs.get(0), rooms.get(i-1), trainerList.get(i-1) , categories.get(i-1),10,
+					ZonedDateTime.of(2024, 1, i,10+i,10,0,0, ZoneId.of("Z"))));
+		}
 	}
 
 	@EventListener
@@ -92,5 +105,6 @@ public class FitnessBackApplication {
 		employeeRepository.saveAll(employees);
 		categoryRepository.saveAll(categories);
 		roomRepository.saveAll(rooms);
+		trainingRepository.saveAll(trainings);
 	}
 }
