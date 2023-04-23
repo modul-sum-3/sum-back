@@ -48,14 +48,16 @@ public class Training {
 
     @FutureOrPresent
     @NotNull
-    private ZonedDateTime Date;
+    private ZonedDateTime StartDate;
 
-    public Training(Room room, Trainer trainer, Category category, int amount, ZonedDateTime date) {
+
+    public Training(Club club,Room room, Trainer trainer, Category category, int amount, ZonedDateTime date) {
         this.room = room;
+        this.club = club;
         this.trainer = trainer;
         this.category = category;
         Amount = amount;
-        Date = date;
+        StartDate = date;
     }
 
     public Training() {
