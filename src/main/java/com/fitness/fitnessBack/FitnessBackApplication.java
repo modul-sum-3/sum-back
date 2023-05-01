@@ -1,5 +1,8 @@
 package com.fitness.fitnessBack;
 
+import com.fitness.fitnessBack.VisitRanking.model.Rating;
+import com.fitness.fitnessBack.VisitRanking.model.VisitRanking;
+import com.fitness.fitnessBack.VisitRanking.repository.VisitRankingRepository;
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.club.model.Club;
@@ -24,6 +27,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @SpringBootApplication
@@ -49,6 +53,9 @@ public class FitnessBackApplication {
 	@Autowired
 	private TrainingRepository trainingRepository;
 
+	@Autowired
+	private VisitRankingRepository visitRankingRepository;
+
 	public static void main(String[] args) {
 		SpringApplication.run(FitnessBackApplication.class, args);
 
@@ -58,7 +65,7 @@ public class FitnessBackApplication {
 	private List<Club> clubs = new ArrayList<>();
 	private List<Room> rooms = new ArrayList<>();
 
-	private List<Room> rooms2 = new ArrayList<>();
+	private List<VisitRanking> visitRankings= new ArrayList<>();
 
 	private List<Client> clients = new ArrayList<>();
 	private List<Category> categories = new ArrayList<>();
@@ -94,6 +101,10 @@ public class FitnessBackApplication {
 			trainings.add(new Training(clubs.get(0), rooms.get(i-1), trainerList.get(i-1) , categories.get(i-1),10,
 					ZonedDateTime.of(2024, 1, i,10+i,10,0,0, ZoneId.of("Z"))));
 		}
+		trainings.get(0).setClients(new HashSet<>(clients));
+		for(int i = 1; i <= 10; i++) {
+			visitRankings.add(new VisitRanking(ZonedDateTime.of(2023, 1, i,10+i,10,0,0, ZoneId.of("Z")),clients.get(i % 3),trainings.get(i % 3),trainings.get(i % 3).getClub(), Rating.Good));
+		}
 	}
 
 	@EventListener
@@ -106,5 +117,6 @@ public class FitnessBackApplication {
 		categoryRepository.saveAll(categories);
 		roomRepository.saveAll(rooms);
 		trainingRepository.saveAll(trainings);
+		visitRankingRepository.saveAll(visitRankings);
 	}
 }
