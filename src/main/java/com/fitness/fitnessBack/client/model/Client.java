@@ -3,8 +3,10 @@ package com.fitness.fitnessBack.client.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 enum Gender {
     FEMALE,
@@ -16,8 +18,9 @@ enum Gender {
 @Data
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
 
     @NotBlank
     @NotEmpty(message = "first name must not be empty")
