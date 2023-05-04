@@ -1,7 +1,7 @@
-package com.fitness.fitnessBack.empolyee.controller;
+package com.fitness.fitnessBack.employee.controller;
 
-import com.fitness.fitnessBack.empolyee.model.Employee;
-import com.fitness.fitnessBack.empolyee.service.EmployeeService;
+import com.fitness.fitnessBack.employee.model.Employee;
+import com.fitness.fitnessBack.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.Value;
 import org.springframework.http.MediaType;

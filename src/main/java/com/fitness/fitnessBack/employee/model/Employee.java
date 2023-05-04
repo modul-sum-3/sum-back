@@ -1,4 +1,4 @@
-package com.fitness.fitnessBack.empolyee.model;
+package com.fitness.fitnessBack.employee.model;
 
 import com.fitness.fitnessBack.club.model.Club;
 import jakarta.persistence.*;
