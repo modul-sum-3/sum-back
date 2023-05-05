@@ -2,6 +2,7 @@ package com.fitness.fitnessBack.training.service;
 
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.client.repository.ClientRepository;
+import com.fitness.fitnessBack.room.model.Room;
 import com.fitness.fitnessBack.trainer.model.Trainer;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
@@ -36,6 +37,7 @@ public class TrainingService {
     public Training saveTraining(Training training) {
         ZonedDateTime startTime = training.getStartDate();
         ZonedDateTime endTime = startTime.plus(training.getDuration());
+        Room room = training.getRoom();
 
         Trainer trainer = training.getTrainer();
 
@@ -46,6 +48,15 @@ public class TrainingService {
 
                 if (tStartTime.isBefore(endTime) && tEndTime.isAfter(startTime)) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Trainer is busy during this time!");
+                }
+            }
+
+            if (t.getRoom().equals(room)) {
+                ZonedDateTime tStartTime = t.getStartDate();
+                ZonedDateTime tEndTime = tStartTime.plus(t.getDuration());
+
+                if (tStartTime.isBefore(endTime) && tEndTime.isAfter(startTime)) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Room is busy during this time!");
                 }
             }
         }
