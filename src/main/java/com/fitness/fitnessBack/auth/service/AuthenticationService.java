@@ -31,23 +31,23 @@ public class AuthenticationService {
     public AuthenticationResponse register(RegisterRequest request){
 
 
-        if(userRepository.findByEmail(request.getEmail()).isPresent()){
+        if(userRepository.findByEmail(request.getClient().getEmail()).isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists!");
         }
         Client client = Client.builder()
-                .first_name(request.getFirst_name())
-                .last_name(request.getLast_name())
-                .date_of_birth(request.getDate_of_birth())
-                .email(request.getEmail())
-                .phoneNumber(request.getPhoneNumber())
-                .gender(request.getGender())
+                .first_name(request.getClient().getFirst_name())
+                .last_name(request.getClient().getLast_name())
+                .date_of_birth(request.getClient().getDate_of_birth())
+                .email(request.getClient().getEmail())
+                .phoneNumber(request.getClient().getPhoneNumber())
+                .gender(request.getClient().getGender())
                 .Balance(0.0)
                 .build();
 
         Client savedClient = clientRepository.save(client);
         var user = User.builder()
                 .id(savedClient.getId())
-                .email(request.getEmail())
+                .email(request.getClient().getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.CLIENT)
                 .build();

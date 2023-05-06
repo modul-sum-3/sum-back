@@ -1,19 +1,23 @@
 package com.fitness.fitnessBack;
 
+import com.fitness.fitnessBack.auth.model.RegisterRequest;
+import com.fitness.fitnessBack.auth.service.AuthenticationService;
 import com.fitness.fitnessBack.client.model.Client;
-import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
+import com.fitness.fitnessBack.employee.model.EmployeePass;
+import com.fitness.fitnessBack.employee.service.EmployeeService;
 import com.fitness.fitnessBack.room.model.Room;
 import com.fitness.fitnessBack.room.repository.RoomRepository;
 import com.fitness.fitnessBack.category.model.Category;
 import com.fitness.fitnessBack.category.repository.CategoryRepository;
 import com.fitness.fitnessBack.employee.model.Employee;
-import com.fitness.fitnessBack.employee.repository.EmployeeRepository;
 import com.fitness.fitnessBack.trainer.model.Trainer;
-import com.fitness.fitnessBack.trainer.repository.TrainerRepository;
+import com.fitness.fitnessBack.trainer.model.TrainerPass;
+import com.fitness.fitnessBack.trainer.service.TrainerService;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
+import com.fitness.fitnessBack.training.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,13 +33,13 @@ import java.util.List;
 @SpringBootApplication
 public class FitnessBackApplication {
 	@Autowired
-	private TrainerRepository trainerRepository;
+	private TrainerService trainerService;
 
 	@Autowired
 	private ClubRepository clubRepository;
 
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private EmployeeService employeeService;
 
 	@Autowired
 	private RoomRepository roomRepository;
@@ -44,10 +48,13 @@ public class FitnessBackApplication {
 	private CategoryRepository categoryRepository;
 
 	@Autowired
-	private ClientRepository clientRepository;
+	private AuthenticationService authenticationServiceService;
 
 	@Autowired
 	private TrainingRepository trainingRepository;
+
+	@Autowired
+	private TrainingService trainingService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(FitnessBackApplication.class, args);
@@ -67,6 +74,8 @@ public class FitnessBackApplication {
 	private byte[] icons;
 
 	private List<Employee> employees = new ArrayList<>();
+
+	private String password = "1234";
 
 	private void saveList() {
 		for (int i = 1; i <= 10; i++) {
@@ -94,17 +103,28 @@ public class FitnessBackApplication {
 			trainings.add(new Training(clubs.get(0), rooms.get(i-1), trainerList.get(i-1) , categories.get(i-1),10,
 					ZonedDateTime.of(2024, 1, i,10+i,10,0,0, ZoneId.of("Z"))));
 		}
+
 	}
 
 	@EventListener
 	public void onReady(ApplicationReadyEvent e) {
 		saveList();
-		clientRepository.saveAll(clients);
-		trainerRepository.saveAll(trainerList);
+		for (int i = 0; i < 3; i++) {
+			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
+		}
+
+		for (int i = 0; i < 10; i++) {
+			trainerService.saveTrainer(new TrainerPass(trainerList.get(i),password));
+		}
 		clubRepository.saveAll(clubs);
-		employeeRepository.saveAll(employees);
+		for (int i = 0; i < 3; i++) {
+			employeeService.saveEmployee(new EmployeePass(employees.get(i), password));
+		}
 		categoryRepository.saveAll(categories);
 		roomRepository.saveAll(rooms);
 		trainingRepository.saveAll(trainings);
+		for (int i = 0; i < 3; i++) {
+			trainingService.addClient(1L, clients.get(i));
+		}
 	}
 }
