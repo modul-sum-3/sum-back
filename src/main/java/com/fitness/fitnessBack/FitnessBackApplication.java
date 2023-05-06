@@ -107,8 +107,8 @@ public class FitnessBackApplication {
 
 	}
 
-	@EventListener
-	public void onReady(ApplicationReadyEvent e) {
+//	@EventListener
+//	public void onReady(ApplicationReadyEvent e) {
 //		saveList();
 //		for (int i = 0; i < 3; i++) {
 //			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
@@ -123,9 +123,9 @@ public class FitnessBackApplication {
 //		}
 //		categoryRepository.saveAll(categories);
 //		roomRepository.saveAll(rooms);
-////		trainingRepository.saveAll(trainings);
-////		for (int i = 0; i < 3; i++) {
-////			trainingService.addClient(1L, clients.get(i));
-////		}
-}
+//		trainingRepository.saveAll(trainings);
+//		for (int i = 0; i < 3; i++) {
+//			trainingService.addClient(1L, clients.get(i));
+//		}
+//}
 }
