@@ -29,7 +29,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class FitnessBackApplication {
@@ -108,29 +107,24 @@ public class FitnessBackApplication {
 	}
 
 	@EventListener
-	public void onReady(ApplicationReadyEvent e) throws InterruptedException {
+	public void onReady(ApplicationReadyEvent e) {
 		saveList();
-
 		for (int i = 0; i < 3; i++) {
-			TimeUnit.SECONDS.sleep(2);
 			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
 		}
 
-		for (int i = 0; i < 5; i++) {
-			TimeUnit.SECONDS.sleep(2);
+		for (int i = 0; i < 10; i++) {
 			trainerService.saveTrainer(new TrainerPass(trainerList.get(i),password));
 		}
 		clubRepository.saveAll(clubs);
 		for (int i = 0; i < 3; i++) {
-			TimeUnit.SECONDS.sleep(2);
 			employeeService.saveEmployee(new EmployeePass(employees.get(i), password));
 		}
 		categoryRepository.saveAll(categories);
 		roomRepository.saveAll(rooms);
-		trainingRepository.saveAll(trainings);
-		for (int i = 0; i < 3; i++) {
-			TimeUnit.SECONDS.sleep(2);
-			trainingService.addClient(1L, clients.get(i));
-		}
+//		trainingRepository.saveAll(trainings);
+//		for (int i = 0; i < 3; i++) {
+//			trainingService.addClient(1L, clients.get(i));
+//		}
 	}
 }
