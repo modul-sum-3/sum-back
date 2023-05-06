@@ -1,5 +1,6 @@
 package com.fitness.fitnessBack.config;
 
+import com.fitness.fitnessBack.user.model.User;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -31,18 +32,19 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(User userDetails){
         return generateToken(new HashMap<>(), userDetails);
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails
+            User userDetails
     ){
         extraClaims.put("role", userDetails.getAuthorities().toArray()[0]);
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
+                .claim("id",userDetails.getId().toString())
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000*60*60))

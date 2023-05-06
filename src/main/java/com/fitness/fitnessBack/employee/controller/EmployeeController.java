@@ -1,6 +1,7 @@
 package com.fitness.fitnessBack.employee.controller;
 
 import com.fitness.fitnessBack.employee.model.Employee;
+import com.fitness.fitnessBack.employee.model.EmployeePass;
 import com.fitness.fitnessBack.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.Value;
@@ -20,7 +21,6 @@ public class EmployeeController {
     public String set() {
         return "Congratulation secured endpoint";
     }
-
     @GetMapping
     public List<Employee> findAll() {
         return employeeService.getAll();
@@ -30,7 +30,7 @@ public class EmployeeController {
         return employeeService.getOne(id);
     }
     @PostMapping
-    public Employee saveEmployee(@Valid @RequestBody Employee employee) {
+    public Employee saveEmployee(@Valid @RequestBody EmployeePass employee) {
         return employeeService.saveEmployee(employee);
     }
 

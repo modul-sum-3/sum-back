@@ -39,10 +39,11 @@ public class AuthenticationController {
 
     @PostMapping("/checktoken")
     public ResponseEntity<HashMap<String, String>> checkToken(@AuthenticationPrincipal User user){
-        HashMap<String, String> userMailAndRole = new HashMap<>();
-        userMailAndRole.put("email",user.getEmail());
-        userMailAndRole.put("role", user.getRole().toString());
-        return ResponseEntity.ok(userMailAndRole);
+        HashMap<String, String> userMailAndRoleAndId = new HashMap<>();
+        userMailAndRoleAndId.put("id", user.getId().toString());
+        userMailAndRoleAndId.put("email",user.getEmail());
+        userMailAndRoleAndId.put("role", user.getRole().toString());
+        return ResponseEntity.ok(userMailAndRoleAndId);
     }
 
     @GetMapping("/validate")
