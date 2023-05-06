@@ -16,6 +16,11 @@ import java.util.List;
 public class EmployeeController {
     EmployeeService employeeService;
 
+    @GetMapping("/secure")
+    public String set() {
+        return "Congratulation secured endpoint";
+    }
+
     @GetMapping
     public List<Employee> findAll() {
         return employeeService.getAll();

@@ -1,15 +1,15 @@
-version: "3.2"
+version: "3.8"
 services:
 
-  sqldata:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+  db:
+    image: postgres:15.2-alpine
     environment:
-      - SA_PASSWORD=Pass@word
-      - ACCEPT_EULA=Y
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Pass@word
+      POSTGRES_DB: fitness
     ports:
-      - "5434:1433"
-    volumes:
-      - mssqldata:/var/opt/mssql
+      - '5432:5432'
+
   mongo:
     image: mongo
     restart: always
