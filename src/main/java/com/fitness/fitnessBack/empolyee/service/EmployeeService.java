@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Value
@@ -20,7 +21,7 @@ public class EmployeeService {
 
         return result;
     }
-    public Employee getOne(Long id) {
+    public Employee getOne(UUID id) {
         return employeeRepository.findById(id).orElseThrow();
     }
 
@@ -28,7 +29,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee deleteEmployee(Long id){
+    public Employee deleteEmployee(UUID id){
         Employee result = employeeRepository.findById(id).orElseThrow();
         employeeRepository.delete(result);
         return result;

@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @Value
@@ -20,7 +21,7 @@ public class ClientController {
     }
 
     @GetMapping("/{id}")
-    public Client findOne(@PathVariable(value = "id") Long id) {
+    public Client findOne(@PathVariable(value = "id") UUID id) {
         return clientService.getOne(id);
     }
 
@@ -37,7 +38,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
-    public Client deleteClient(@PathVariable(value = "id") Long id) {
+    public Client deleteClient(@PathVariable(value = "id") UUID id) {
         return clientService.deleteClient(id);
     }
 }
