@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Trainer")
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 public class Trainer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private UUID id;
 
     @NotBlank
     @NotEmpty(message = "firstname can't be empty")

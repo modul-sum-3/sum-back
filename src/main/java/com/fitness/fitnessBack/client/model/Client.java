@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 enum Gender {
     FEMALE,
@@ -17,7 +18,7 @@ enum Gender {
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private UUID id;
 
     @NotBlank
     @NotEmpty(message = "first name must not be empty")
