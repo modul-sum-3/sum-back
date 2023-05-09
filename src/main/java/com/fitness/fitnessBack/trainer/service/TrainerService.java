@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Value
@@ -27,7 +28,7 @@ public class TrainerService {
 
         return result;
     }
-    public Trainer getOne(Long id) {
+    public Trainer getOne(UUID id) {
         return trainerRepository.findById(id).orElseThrow();
     }
 
@@ -47,7 +48,7 @@ public class TrainerService {
         return saved;
     }
 
-    public Trainer deleteTrainer(Long id){
+    public Trainer deleteTrainer(UUID id){
         Trainer result = trainerRepository.findById(id).orElseThrow();
         trainerRepository.delete(result);
         return result;

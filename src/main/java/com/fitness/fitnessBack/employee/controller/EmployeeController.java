@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @Value
@@ -26,7 +27,7 @@ public class EmployeeController {
         return employeeService.getAll();
     }
     @GetMapping("/{id}")
-    public Employee findOne(@PathVariable(value = "id") Long id) {
+    public Employee findOne(@PathVariable(value = "id") UUID id) {
         return employeeService.getOne(id);
     }
     @PostMapping
@@ -35,7 +36,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public Employee deleteEmployee(@PathVariable(value = "id") Long id) {
+    public Employee deleteEmployee(@PathVariable(value = "id") UUID id) {
         return employeeService.deleteEmployee(id);
     }
 }
