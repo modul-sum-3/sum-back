@@ -21,6 +21,7 @@ import com.fitness.fitnessBack.trainer.service.TrainerService;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import com.fitness.fitnessBack.training.service.TrainingService;
+import jakarta.persistence.PostLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -117,7 +118,7 @@ public class FitnessBackApplication {
 		}
 	}
 
-	@EventListener
+	@PostLoad
 	public void onReady(ApplicationReadyEvent e) throws InterruptedException {
 		TimeUnit.MINUTES.sleep(2);
 		saveList();
