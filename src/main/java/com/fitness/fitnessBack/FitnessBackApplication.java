@@ -67,9 +67,7 @@ public class FitnessBackApplication {
 	private TrainingService trainingService;
 
 	public static void main(String[] args) {
-		System.setProperty("spring.devtools.restart.enabled", "false");
 		SpringApplication.run(FitnessBackApplication.class, args);
-
 	}
 
 	private List<Trainer> trainerList = new ArrayList<>();
