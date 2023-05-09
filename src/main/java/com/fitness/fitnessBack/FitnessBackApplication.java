@@ -110,7 +110,7 @@ public class FitnessBackApplication {
 			trainings.add(new Training(clubs.get(0), rooms.get(i-1), trainerList.get(i-1) , categories.get(i-1),10,
 					ZonedDateTime.of(2024, 1, i,10+i,10,0,0, ZoneId.of("Z"))));
 		}
-		trainings.get(0).setClients(new HashSet<>(clients));
+
 		for(int i = 1; i <= 10; i++) {
 			visitRankings.add(new VisitRanking(ZonedDateTime.of(2023, 1, i,10+i,10,0,0, ZoneId.of("Z")),clients.get(i % 3),trainings.get(i % 3),trainings.get(i % 3).getClub(), Rating.Good));
 		}
@@ -138,5 +138,4 @@ public class FitnessBackApplication {
 		}
 		visitRankingRepository.saveAll(visitRankings);
 	}
-}
 }
