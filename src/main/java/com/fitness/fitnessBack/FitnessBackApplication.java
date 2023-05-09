@@ -21,6 +21,7 @@ import com.fitness.fitnessBack.trainer.service.TrainerService;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import com.fitness.fitnessBack.training.service.TrainingService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -119,31 +120,30 @@ public class FitnessBackApplication {
 		}
 	}
 
-	@EventListener
-	public void onReady(ApplicationReadyEvent e) throws InterruptedException {
+	@PostConstruct
+	public void onReady() {
 
 		saveList();
 		for (int i = 0; i < 3; i++) {
 			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
 		}
-		TimeUnit.MINUTES.sleep(5);
 		for (int i = 0; i < 10; i++) {
 			trainerService.saveTrainer(new TrainerPass(trainerList.get(i),password));
 		}
-		TimeUnit.MINUTES.sleep(5);
+
 		clubRepository.saveAll(clubs);
 		for (int i = 0; i < 3; i++) {
 			employeeService.saveEmployee(new EmployeePass(employees.get(i), password));
 		}
-		TimeUnit.MINUTES.sleep(5);
+
 		categoryRepository.saveAll(categories);
 		roomRepository.saveAll(rooms);
 		trainingRepository.saveAll(trainings);
-		TimeUnit.MINUTES.sleep(5);
+
 		for (int i = 0; i < 3; i++) {
 			trainingService.addClient(1L, clients.get(i));
 		}
-		TimeUnit.MINUTES.sleep(5);
+
 		visitRankingRepository.saveAll(visitRankings);
 	}
 }
