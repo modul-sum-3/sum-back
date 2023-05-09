@@ -1,6 +1,6 @@
 package com.fitness.fitnessBack.employee.repository;
 
-import com.fitness.fitnessBack.empolyee.model.Employee;
+import com.fitness.fitnessBack.employee.model.Employee;
 
 import java.util.UUID;
 

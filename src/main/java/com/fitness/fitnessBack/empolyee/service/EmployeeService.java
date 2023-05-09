@@ -1,8 +1,10 @@
 package com.fitness.fitnessBack.empolyee.service;
 
 
-import com.fitness.fitnessBack.empolyee.model.Employee;
-import com.fitness.fitnessBack.empolyee.repository.EmployeeRepository;
+
+
+import com.fitness.fitnessBack.employee.model.Employee;
+import com.fitness.fitnessBack.employee.repository.EmployeeRepository;
 import lombok.Value;
 import org.springframework.stereotype.Service;
 
