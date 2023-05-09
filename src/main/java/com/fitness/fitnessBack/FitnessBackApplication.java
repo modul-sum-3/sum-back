@@ -119,8 +119,9 @@ public class FitnessBackApplication {
 	}
 
 	@EventListener
-	public void onReady(ApplicationReadyEvent e) {
+	public void onReady(ApplicationReadyEvent e) throws InterruptedException {
 		saveList();
+		Thread.sleep(100000);
 		for (int i = 0; i < 3; i++) {
 			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
 		}
