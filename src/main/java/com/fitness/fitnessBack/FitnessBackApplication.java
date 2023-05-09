@@ -21,7 +21,6 @@ import com.fitness.fitnessBack.trainer.service.TrainerService;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import com.fitness.fitnessBack.training.service.TrainingService;
-import jakarta.persistence.PostLoad;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -33,7 +32,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class FitnessBackApplication {
@@ -65,7 +63,6 @@ public class FitnessBackApplication {
 
 	@Autowired
 	private TrainingService trainingService;
-
 	public static void main(String[] args) {
 		SpringApplication.run(FitnessBackApplication.class, args);
 	}
@@ -118,16 +115,15 @@ public class FitnessBackApplication {
 		}
 	}
 
-	@PostLoad
+	@EventListener
 	public void onReady(ApplicationReadyEvent e) throws InterruptedException {
-		TimeUnit.MINUTES.sleep(2);
+		e.wait(5000);
 		saveList();
-		for (int i = 0; i < 3; i++) {
-			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
-		}
-
 		for (int i = 0; i < 10; i++) {
 			trainerService.saveTrainer(new TrainerPass(trainerList.get(i),password));
+		}
+		for (int i = 0; i < 3; i++) {
+			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
 		}
 		clubRepository.saveAll(clubs);
 		for (int i = 0; i < 3; i++) {
