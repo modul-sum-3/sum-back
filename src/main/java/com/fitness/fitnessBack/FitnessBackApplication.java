@@ -35,6 +35,8 @@ import java.util.List;
 
 @SpringBootApplication
 public class FitnessBackApplication {
+
+
 	@Autowired
 	private TrainerService trainerService;
 
