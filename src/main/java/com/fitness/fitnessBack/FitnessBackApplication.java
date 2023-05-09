@@ -32,6 +32,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class FitnessBackApplication {
@@ -120,8 +121,8 @@ public class FitnessBackApplication {
 
 	@EventListener
 	public void onReady(ApplicationReadyEvent e) throws InterruptedException {
+		TimeUnit.MINUTES.sleep(5);
 		saveList();
-		Thread.sleep(100000);
 		for (int i = 0; i < 3; i++) {
 			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
 		}
