@@ -2,22 +2,25 @@ package com.fitness.fitnessBack.client.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
-
-enum Gender {
-    FEMALE,
-    MALE,
-    UNKNOWN
-}
+import java.util.UUID;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
 
     @NotBlank
     @NotEmpty(message = "first name must not be empty")
@@ -55,7 +58,4 @@ public class Client {
         this.Balance = 0.0;
     }
 
-    public Client() {
-
-    }
 }

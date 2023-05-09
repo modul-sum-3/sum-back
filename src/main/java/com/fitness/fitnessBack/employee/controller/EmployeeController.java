@@ -1,7 +1,8 @@
-package com.fitness.fitnessBack.empolyee.controller;
+package com.fitness.fitnessBack.employee.controller;
 
-import com.fitness.fitnessBack.empolyee.model.Employee;
-import com.fitness.fitnessBack.empolyee.service.EmployeeService;
+import com.fitness.fitnessBack.employee.model.Employee;
+import com.fitness.fitnessBack.employee.model.EmployeePass;
+import com.fitness.fitnessBack.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.Value;
 import org.springframework.http.MediaType;
@@ -16,6 +17,10 @@ import java.util.List;
 public class EmployeeController {
     EmployeeService employeeService;
 
+    @GetMapping("/secure")
+    public String set() {
+        return "Congratulation secured endpoint";
+    }
     @GetMapping
     public List<Employee> findAll() {
         return employeeService.getAll();
@@ -25,7 +30,7 @@ public class EmployeeController {
         return employeeService.getOne(id);
     }
     @PostMapping
-    public Employee saveEmployee(@Valid @RequestBody Employee employee) {
+    public Employee saveEmployee(@Valid @RequestBody EmployeePass employee) {
         return employeeService.saveEmployee(employee);
     }
 

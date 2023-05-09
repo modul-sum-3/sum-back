@@ -3,16 +3,19 @@ package com.fitness.fitnessBack.trainer.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Trainer")
 @Data
 public class Trainer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue
+    @UuidGenerator
+    private UUID id;
 
     @NotBlank
     @NotEmpty(message = "firstname can't be empty")

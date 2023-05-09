@@ -43,14 +43,12 @@ public class TrainingService {
         Training training = trainingRepository.findById(TrainingID).orElseThrow();
         Client toAdd = clientRepository.getClientByEmailIgnoreCase(client.getEmail());
         if(training.getClients().size() < training.getAmount()) {
-            if (toAdd.equals(null)) {
-                clientRepository.save(toAdd);
+            if (!toAdd.equals(null)) {
                 training.getClients().add(toAdd);
-            } else {
-                training.getClients().add(toAdd);
+                trainingRepository.save(training);
+                return training;
             }
-            trainingRepository.save(training);
-            return training;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User no exists!");
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Training limit is full!");
 

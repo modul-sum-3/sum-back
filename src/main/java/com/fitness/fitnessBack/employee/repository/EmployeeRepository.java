@@ -1,6 +1,6 @@
-package com.fitness.fitnessBack.empolyee.repository;
+package com.fitness.fitnessBack.employee.repository;
 
-import com.fitness.fitnessBack.empolyee.model.Employee;
+import com.fitness.fitnessBack.employee.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -14,14 +14,6 @@ public class ClientService {
 
     ClientRepository clientRepository;
 
-    public Client getClientByEmail(String email) {
-        return clientRepository.getClientByEmailIgnoreCase(email);
-    }
-
-    public Client saveClient(Client client) {
-        return clientRepository.save(client);
-    }
-
     public List<Client> getAll() {
         List<Client> result = new ArrayList<>();
         result.addAll(clientRepository.findAll());

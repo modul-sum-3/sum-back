@@ -20,7 +20,7 @@ public class VisitRanking {
     @PastOrPresent
     ZonedDateTime Start_visit;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="ClientID", nullable=false)
     private Client client;
 
