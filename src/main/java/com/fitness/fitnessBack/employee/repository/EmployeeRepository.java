@@ -1,4 +1,4 @@
-package com.fitness.fitnessBack.empolyee.repository;
+package com.fitness.fitnessBack.employee.repository;
 
 import com.fitness.fitnessBack.empolyee.model.Employee;
 

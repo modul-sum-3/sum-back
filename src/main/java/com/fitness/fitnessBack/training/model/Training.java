@@ -22,7 +22,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @Nullable
     private Set<Client> clients;
 

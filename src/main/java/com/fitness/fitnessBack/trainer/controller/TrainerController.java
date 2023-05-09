@@ -1,6 +1,7 @@
 package com.fitness.fitnessBack.trainer.controller;
 
 import com.fitness.fitnessBack.trainer.model.Trainer;
+import com.fitness.fitnessBack.trainer.model.TrainerPass;
 import com.fitness.fitnessBack.trainer.service.TrainerService;
 import jakarta.validation.Valid;
 import lombok.Value;
@@ -26,7 +27,7 @@ public class TrainerController {
         return trainerService.getOne(id);
     }
     @PostMapping
-    public Trainer saveTrainer(@Valid @RequestBody Trainer trainer) {
+    public Trainer saveTrainer(@Valid @RequestBody TrainerPass trainer) {
         return trainerService.saveTrainer(trainer);
     }
 

@@ -3,6 +3,7 @@ package com.fitness.fitnessBack.trainer.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -12,7 +13,8 @@ import java.util.UUID;
 @Data
 public class Trainer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @UuidGenerator
     private UUID id;
 
     @NotBlank
