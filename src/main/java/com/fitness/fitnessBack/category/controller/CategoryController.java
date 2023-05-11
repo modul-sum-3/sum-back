@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @Value
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping(value = "/categorys", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CategoryController {
     CategoryService categoryService;

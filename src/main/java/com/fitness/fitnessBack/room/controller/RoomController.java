@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @Value
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping(value = "/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoomController {
     RoomService roomService;
