@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @Value
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping(value="/Ranking", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VisitRankingController {
     VisitRankingService visitRankingService;

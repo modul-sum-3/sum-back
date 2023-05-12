@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RestController
 @Value
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping(value="/employee", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EmployeeController {
     EmployeeService employeeService;
