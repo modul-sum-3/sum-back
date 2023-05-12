@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @RestController
 @Value
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping(value="/client", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ClientController {
     ClientService clientService;
