@@ -9,11 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Value
 @CrossOrigin
-@RequestMapping(value="/clubs", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/clubs", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ClubController {
     ClubService clubService;
 
@@ -21,10 +22,12 @@ public class ClubController {
     public List<Club> findAll() {
         return clubService.getAll();
     }
+
     @GetMapping("/{id}")
-    public Club findOne(@PathVariable(value = "id") Long id) {
+    public Optional<Club> findOne(@PathVariable(value = "id") Long id) {
         return clubService.getOne(id);
     }
+
     @PostMapping
     public Club saveClub(@Valid @RequestBody Club club) {
         return clubService.saveClub(club);

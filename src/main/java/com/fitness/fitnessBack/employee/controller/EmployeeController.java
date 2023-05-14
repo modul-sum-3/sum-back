@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 @RestController
 @Value
 @CrossOrigin
-@RequestMapping(value="/employee", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/employee", produces = MediaType.APPLICATION_JSON_VALUE)
 public class EmployeeController {
     EmployeeService employeeService;
 
@@ -22,14 +23,17 @@ public class EmployeeController {
     public String set() {
         return "Congratulation secured endpoint";
     }
+
     @GetMapping
     public List<Employee> findAll() {
         return employeeService.getAll();
     }
+
     @GetMapping("/{id}")
-    public Employee findOne(@PathVariable(value = "id") UUID id) {
+    public Optional<Employee> findOne(@PathVariable(value = "id") UUID id) {
         return employeeService.getOne(id);
     }
+
     @PostMapping
     public Employee saveEmployee(@Valid @RequestBody EmployeePass employee) {
         return employeeService.saveEmployee(employee);

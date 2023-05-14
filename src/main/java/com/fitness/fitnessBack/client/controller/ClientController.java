@@ -8,20 +8,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 @RestController
 @Value
 @CrossOrigin
-@RequestMapping(value="/client", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/client", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ClientController {
     ClientService clientService;
+
     @GetMapping
     public List<Client> findAll() {
         return clientService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Client findOne(@PathVariable(value = "id") UUID id) {
+    public Optional<Client> findOne(@PathVariable(value = "id") UUID id) {
         return clientService.getOne(id);
     }
 

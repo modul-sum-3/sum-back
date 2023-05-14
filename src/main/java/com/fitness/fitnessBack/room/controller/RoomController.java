@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Value
@@ -23,7 +24,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public Room findOne(@PathVariable(value = "id") Long id) {
+    public Optional<Room> findOne(@PathVariable(value = "id") Long id) {
         return roomService.getOne(id);
     }
 
