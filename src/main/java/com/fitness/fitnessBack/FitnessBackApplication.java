@@ -94,10 +94,10 @@ public class FitnessBackApplication {
 			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i));
 		}
 		for (int i = 1; i <= 3; i++) {
-			rooms.add(new Room("name" + i, icons, clubs.get(1)));
+			rooms.add(new Room("name" + i, clubs.get(1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			categories.add(new Category("name" + i, rooms));
+			categories.add(new Category("name" + i, rooms, icons));
 		}
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailEmployee" + i + "@google.com", "0000000",
