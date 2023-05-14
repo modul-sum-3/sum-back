@@ -9,9 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Value
@@ -26,23 +26,32 @@ public class TrainingService {
 
         return result;
     }
-    public Training getOne(Long id) {
-        return trainingRepository.findById(id).orElseThrow();
+
+    public List<Training> findAllAcceptedTrainings() {
+        List<Training> result = new ArrayList<>();
+        result.addAll(trainingRepository.findAllByIsConfirmed(true));
+
+        return result;
+    }
+
+    public Optional<Training> getOne(Long id) {
+        return trainingRepository.findById(id);
     }
 
     public Training saveTraining(Training training) {
         return trainingRepository.save(training);
     }
 
-    public Training deleteTraining(Long id){
+    public Training deleteTraining(Long id) {
         Training result = trainingRepository.findById(id).orElseThrow();
         trainingRepository.delete(result);
         return result;
     }
-    public Training addClient(Long TrainingID, Client client){
+
+    public Training addClient(Long TrainingID, Client client) {
         Training training = trainingRepository.findById(TrainingID).orElseThrow();
         Client toAdd = clientRepository.getClientByEmailIgnoreCase(client.getEmail());
-        if(training.getClients().size() < training.getAmount()) {
+        if (training.getClients().size() < training.getAmount()) {
             if (!toAdd.equals(null)) {
                 training.getClients().add(toAdd);
                 trainingRepository.save(training);

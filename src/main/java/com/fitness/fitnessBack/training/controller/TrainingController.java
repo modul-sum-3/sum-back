@@ -9,11 +9,12 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Value
 @CrossOrigin
-@RequestMapping(value="/training", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/training", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TrainingController {
     TrainingService trainingService;
 
@@ -21,17 +22,42 @@ public class TrainingController {
     public List<Training> findAll() {
         return trainingService.getAll();
     }
+
     @GetMapping("/{id}")
-    public Training findOne(@PathVariable(value = "id") Long id) {
+    public Optional<Training> findOne(@PathVariable(value = "id") Long id) {
         return trainingService.getOne(id);
     }
+
+    @GetMapping("/confirmed")
+    public List<Training> findAllAcceptedTrainings() {
+        return trainingService.findAllAcceptedTrainings();
+    }
+
+    @PutMapping("/{id}/confirmed")
+    public Training confirmTraining(
+            @PathVariable(value = "id") Long id,
+            @RequestParam("isConfirmed") boolean isConfirmed) {
+
+        // Retrieve the training object from the database
+        Optional<Training> trainingOptional = trainingService.getOne(id);
+
+        Training training = trainingOptional.get();
+
+        // Update the accepted value
+        training.setIsConfirmed(isConfirmed);
+
+        // Save the updated training object
+        return trainingService.saveTraining(training);
+    }
+
     @PostMapping
     public Training saveTraining(@Valid @RequestBody Training training) {
         return trainingService.saveTraining(training);
     }
+
     @PostMapping("/client")
     public Training addClient(@RequestParam Long TrainingID, @Valid @RequestBody Client client) {
-        return trainingService.addClient(TrainingID,client);
+        return trainingService.addClient(TrainingID, client);
     }
 
     @DeleteMapping("/{id}")

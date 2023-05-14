@@ -22,7 +22,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Nullable
     private Set<Client> clients;
 
@@ -39,7 +39,7 @@ public class Training {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name="club_id", nullable = false)
+    @JoinColumn(name = "club_id", nullable = false)
     public Club club;
 
     @PositiveOrZero
@@ -50,8 +50,9 @@ public class Training {
     @NotNull
     private ZonedDateTime StartDate;
 
+    private Boolean isConfirmed = false;
 
-    public Training(Club club,Room room, Trainer trainer, Category category, int amount, ZonedDateTime date) {
+    public Training(Club club, Room room, Trainer trainer, Category category, int amount, ZonedDateTime date) {
         this.room = room;
         this.club = club;
         this.trainer = trainer;
