@@ -1,6 +1,5 @@
 package com.fitness.fitnessBack.employee.service;
 
-
 import com.fitness.fitnessBack.employee.model.Employee;
 import com.fitness.fitnessBack.employee.model.EmployeePass;
 import com.fitness.fitnessBack.employee.repository.EmployeeRepository;
@@ -16,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 @Service
 @Value
@@ -30,12 +30,13 @@ public class EmployeeService {
         result.addAll(employeeRepository.findAll());
         return result;
     }
-    public Employee getOne(UUID id) {
-        return employeeRepository.findById(id).orElseThrow();
+
+    public Optional<Employee> getOne(UUID id) {
+        return employeeRepository.findById(id);
     }
 
     public Employee saveEmployee(EmployeePass employee) {
-        if(userRepository.findByEmail(employee.getEmployee().getEmail()).isPresent()){
+        if (userRepository.findByEmail(employee.getEmployee().getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists!");
         }
         Employee saved = employeeRepository.save(employee.getEmployee());
@@ -49,7 +50,7 @@ public class EmployeeService {
         return saved;
     }
 
-    public Employee deleteEmployee(UUID id){
+    public Employee deleteEmployee(UUID id) {
         Employee result = employeeRepository.findById(id).orElseThrow();
         employeeRepository.delete(result);
         return result;

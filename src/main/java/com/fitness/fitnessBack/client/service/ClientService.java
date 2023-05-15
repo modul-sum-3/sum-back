@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,10 +22,12 @@ public class ClientService {
 
         return result;
     }
-    public Client getOne(UUID id) {
-        return clientRepository.findById(id).orElseThrow();
+
+    public Optional<Client> getOne(UUID id) {
+        return clientRepository.findById(id);
     }
-    public Client deleteClient(UUID id){
+
+    public Client deleteClient(UUID id) {
         Client result = clientRepository.findById(id).orElseThrow();
         clientRepository.delete(result);
         return result;

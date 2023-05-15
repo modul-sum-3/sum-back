@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Value
@@ -20,8 +21,8 @@ public class RoomService {
         return result;
     }
 
-    public Room getOne(Long id) {
-        return roomRepository.findById(id).orElseThrow();
+    public Optional<Room> getOne(Long id) {
+        return roomRepository.findById(id);
     }
 
     public Room saveRoom(Room room) {
