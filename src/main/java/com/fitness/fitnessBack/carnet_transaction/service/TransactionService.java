@@ -18,7 +18,6 @@ import java.util.Optional;
 @Service
 @Value
 public class TransactionService {
-    Logger logger = LoggerFactory.getLogger(TransactionService.class);
     ClientRepository clientRepository;
     TransactionRepository transactionRepository;
     public List<CarnetTransaction> getAll() {
@@ -33,7 +32,6 @@ public class TransactionService {
     }
 
     public ResponseEntity<?> saveTransaction(CarnetTransaction carnetTransaction, User user) {
-        logger.info(user.toString());
         Client client = clientRepository.findById(user.getId()).get();
         if(client.getBalance() < carnetTransaction.getPrice()) {
             return ResponseEntity.badRequest().body("You can't afford this carnet!");

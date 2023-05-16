@@ -21,7 +21,6 @@ import java.util.Optional;
 @CrossOrigin
 @RequestMapping(value = "/transaction", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TransactionController {
-    Logger logger = LoggerFactory.getLogger(TransactionController.class);
     TransactionService transactionService;
     @GetMapping
     public List<CarnetTransaction> findAll() {
@@ -35,7 +34,6 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<?> saveTransaction(@Valid @RequestBody CarnetTransaction carnetTransaction, @AuthenticationPrincipal User user) {
-        logger.info(user.toString());
         return transactionService.saveTransaction(carnetTransaction, user);
     }
 }
