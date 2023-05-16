@@ -24,4 +24,13 @@ public class CarnetTransaction {
 
     private double Price;
 
+    public CarnetTransaction() {
+    }
+
+    public CarnetTransaction(ZonedDateTime transactionDate, Client clientID, double price) {
+        this.transactionDate = transactionDate;
+        ClientID = clientID;
+        Price = price;
+
+    }
 }

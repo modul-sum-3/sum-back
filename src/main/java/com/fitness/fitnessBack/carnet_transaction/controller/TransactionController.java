@@ -3,9 +3,14 @@ package com.fitness.fitnessBack.carnet_transaction.controller;
 import com.fitness.fitnessBack.carnet_transaction.model.CarnetTransaction;
 import com.fitness.fitnessBack.carnet_transaction.service.TransactionService;
 
+import com.fitness.fitnessBack.user.model.User;
 import jakarta.validation.Valid;
 import lombok.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +19,9 @@ import java.util.Optional;
 @RestController
 @Value
 @CrossOrigin
-@RequestMapping(value = "/Transaction", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/transaction", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TransactionController {
+    Logger logger = LoggerFactory.getLogger(TransactionController.class);
     TransactionService transactionService;
     @GetMapping
     public List<CarnetTransaction> findAll() {
@@ -28,7 +34,8 @@ public class TransactionController {
     }
 
     @PostMapping
-    public CarnetTransaction saveTransaction(@Valid @RequestBody CarnetTransaction carnetTransaction) {
-        return transactionService.saveTransaction(carnetTransaction);
+    public ResponseEntity<?> saveTransaction(@Valid @RequestBody CarnetTransaction carnetTransaction, @AuthenticationPrincipal User user) {
+        logger.info(user.toString());
+        return transactionService.saveTransaction(carnetTransaction, user);
     }
 }
