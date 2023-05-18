@@ -2,8 +2,10 @@ package com.fitness.fitnessBack.client.controller;
 
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.client.service.ClientService;
+import jakarta.websocket.server.PathParam;
 import lombok.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +27,10 @@ public class ClientController {
     @GetMapping("/{id}")
     public Optional<Client> findOne(@PathVariable(value = "id") UUID id) {
         return clientService.getOne(id);
+    }
+    @PatchMapping ("/{id}")
+    public ResponseEntity<?> addBalance(@PathVariable(value = "id") UUID id, @PathParam(value = "amount") Long amount) {
+        return clientService.addBalace(id, amount);
     }
 
     @DeleteMapping("/{id}")

@@ -5,6 +5,8 @@ import com.fitness.fitnessBack.auth.service.AuthenticationService;
 import com.fitness.fitnessBack.VisitRanking.model.Rating;
 import com.fitness.fitnessBack.VisitRanking.model.VisitRanking;
 import com.fitness.fitnessBack.VisitRanking.repository.VisitRankingRepository;
+import com.fitness.fitnessBack.carnet_transaction.model.CarnetTransaction;
+import com.fitness.fitnessBack.carnet_transaction.repository.TransactionRepository;
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
@@ -63,6 +65,9 @@ public class FitnessBackApplication {
 
 	@Autowired
 	private TrainingService trainingService;
+
+	@Autowired
+	private TransactionRepository transactionRepository;
 
 	public static void main(String[] args) {
 		System.setProperty("spring.devtools.restart.enabled", "false");
@@ -139,5 +144,6 @@ public class FitnessBackApplication {
 			trainingService.addClient(1L, clients.get(i));
 		}
 		visitRankingRepository.saveAll(visitRankings);
+		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),60L));
 	}
 }
