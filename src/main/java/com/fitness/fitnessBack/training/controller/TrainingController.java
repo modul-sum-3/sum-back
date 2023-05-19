@@ -38,16 +38,7 @@ public class TrainingController {
             @PathVariable(value = "id") Long id,
             @RequestParam("isConfirmed") boolean isConfirmed) {
 
-        // Retrieve the training object from the database
-        Optional<Training> trainingOptional = trainingService.getOne(id);
-
-        Training training = trainingOptional.get();
-
-        // Update the accepted value
-        training.setIsConfirmed(isConfirmed);
-
-        // Save the updated training object
-        return trainingService.saveTraining(training);
+        return trainingService.confirmTraining(id, isConfirmed);
     }
 
     @PostMapping
