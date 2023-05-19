@@ -93,8 +93,7 @@ public class FitnessBackApplication {
 		}
 		for (int i = 1; i <= 3; i++) {
 			trainings.add(new Training(clubs.get(0), rooms.get(i - 1), trainerList.get(i - 1), categories.get(i - 1),
-					10, Duration.ofMinutes(60),
-					ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
+					10, 60L, ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
 		}
 	}
 
