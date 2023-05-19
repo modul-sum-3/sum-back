@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.net.http.HttpHeaders;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,27 +38,27 @@ public class TrainingService {
 
     public Training saveTraining(Training training) {
         ZonedDateTime startTime = training.getStartDate();
-        ZonedDateTime endTime = startTime.plus(training.getDuration());
+        ZonedDateTime endTime = startTime.plus(training.getDuration(), ChronoUnit.MINUTES);
         Room room = training.getRoom();
 
         Trainer trainer = training.getTrainer();
 
         for (Training t : trainingRepository.findAll()) {
-            if (t.getTrainer().equals(trainer)) {
+            if (t.getTrainer().getId() == (trainer.getId())) {
                 ZonedDateTime tStartTime = t.getStartDate();
-                ZonedDateTime tEndTime = tStartTime.plus(t.getDuration());
+                ZonedDateTime tEndTime = tStartTime.plus(t.getDuration(), ChronoUnit.MINUTES);
 
                 if (tStartTime.isBefore(endTime) && tEndTime.isAfter(startTime)) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Trainer is busy during this time!");
                 }
             }
 
-            if (t.getRoom().equals(room)) {
+            if (t.getRoom().getId() == (room.getId())) {
                 ZonedDateTime tStartTime = t.getStartDate();
-                ZonedDateTime tEndTime = tStartTime.plus(t.getDuration());
+                ZonedDateTime tEndTime = tStartTime.plus(t.getDuration(), ChronoUnit.MINUTES);
 
                 if (tStartTime.isBefore(endTime) && tEndTime.isAfter(startTime)) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Room is busy during this time!");
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Room is busy during this time!");
                 }
             }
         }
