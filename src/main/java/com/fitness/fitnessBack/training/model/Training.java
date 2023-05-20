@@ -13,6 +13,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 @Entity
@@ -52,16 +53,26 @@ public class Training {
 
     private Boolean isConfirmed = false;
 
-    public Training(Club club, Room room, Trainer trainer, Category category, int amount, ZonedDateTime date) {
+    @PositiveOrZero
+    @NotNull
+    private Long duration;
+
+    public Training(Club club, Room room, Trainer trainer, Category category, int amount, Long duration,
+            ZonedDateTime date) {
         this.room = room;
         this.club = club;
         this.trainer = trainer;
         this.category = category;
         Amount = amount;
+        this.duration = duration;
         StartDate = date;
     }
 
     public Training() {
 
+    }
+
+    public ZonedDateTime getEndTime() {
+        return StartDate.plus(duration, ChronoUnit.MINUTES);
     }
 }

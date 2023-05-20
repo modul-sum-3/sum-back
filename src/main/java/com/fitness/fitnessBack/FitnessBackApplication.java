@@ -113,9 +113,8 @@ public class FitnessBackApplication {
 					LocalDate.of(1999, i, 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			trainings
-					.add(new Training(clubs.get(0), rooms.get(i - 1), trainerList.get(i - 1), categories.get(i - 1), 10,
-							ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
+			trainings.add(new Training(clubs.get(0), rooms.get(i - 1), trainerList.get(i - 1), categories.get(i - 1),
+					10, 60L, ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
 		}
 
 		for (int i = 1; i <= 10; i++) {
@@ -145,6 +144,6 @@ public class FitnessBackApplication {
 			trainingService.addClient(1L, clients.get(i));
 		}
 		visitRankingRepository.saveAll(visitRankings);
-		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),60L));
+		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(), clients.get(0), 60L));
 	}
 }
