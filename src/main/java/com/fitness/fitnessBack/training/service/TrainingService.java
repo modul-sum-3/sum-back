@@ -61,7 +61,7 @@ public class TrainingService {
                 ZonedDateTime tEndTime = tStartTime.plus(t.getDuration(), ChronoUnit.MINUTES);
 
                 if (tStartTime.isBefore(endTime) && tEndTime.isAfter(startTime)) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Trainer is busy during this time!");
+                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Trainer is busy during this time!");
                 }
             }
 
