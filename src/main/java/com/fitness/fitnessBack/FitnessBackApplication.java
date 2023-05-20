@@ -5,6 +5,8 @@ import com.fitness.fitnessBack.auth.service.AuthenticationService;
 import com.fitness.fitnessBack.VisitRanking.model.Rating;
 import com.fitness.fitnessBack.VisitRanking.model.VisitRanking;
 import com.fitness.fitnessBack.VisitRanking.repository.VisitRankingRepository;
+import com.fitness.fitnessBack.carnet_transaction.model.CarnetTransaction;
+import com.fitness.fitnessBack.carnet_transaction.repository.TransactionRepository;
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
@@ -36,7 +38,6 @@ import java.util.List;
 @SpringBootApplication
 public class FitnessBackApplication {
 
-
 	@Autowired
 	private TrainerService trainerService;
 
@@ -64,6 +65,9 @@ public class FitnessBackApplication {
 	@Autowired
 	private TrainingService trainingService;
 
+	@Autowired
+	private TransactionRepository transactionRepository;
+
 	public static void main(String[] args) {
 		System.setProperty("spring.devtools.restart.enabled", "false");
 		SpringApplication.run(FitnessBackApplication.class, args);
@@ -74,7 +78,7 @@ public class FitnessBackApplication {
 	private List<Club> clubs = new ArrayList<>();
 	private List<Room> rooms = new ArrayList<>();
 
-	private List<VisitRanking> visitRankings= new ArrayList<>();
+	private List<VisitRanking> visitRankings = new ArrayList<>();
 
 	private List<Client> clients = new ArrayList<>();
 	private List<Category> categories = new ArrayList<>();
@@ -92,29 +96,31 @@ public class FitnessBackApplication {
 					LocalDate.of(1999, i, 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			clubs.add(new Club("name" + i));
+			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i));
 		}
 		for (int i = 1; i <= 3; i++) {
-			rooms.add(new Room("name" + i, icons,clubs.get(1)));
+			rooms.add(new Room("name" + i, clubs.get(1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			categories.add(new Category("name" + i, rooms));
+			categories.add(new Category("name" + i, rooms, icons));
 		}
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailEmployee" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1), clubs.get(i - 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			clients.add(new Client("Karol", "Kowalski" + i , "+48000100100","emailKlienta" + i + "@google.com",
+			clients.add(new Client("Karol", "Kowalski" + i, "+48000100100", "emailKlienta" + i + "@google.com",
 					LocalDate.of(1999, i, 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			trainings.add(new Training(clubs.get(0), rooms.get(i-1), trainerList.get(i-1) , categories.get(i-1),10,
-					ZonedDateTime.of(2024, 1, i,10+i,10,0,0, ZoneId.of("Z"))));
+			trainings
+					.add(new Training(clubs.get(0), rooms.get(i - 1), trainerList.get(i - 1), categories.get(i - 1), 10,
+							ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
 		}
 
-		for(int i = 1; i <= 10; i++) {
-			visitRankings.add(new VisitRanking(ZonedDateTime.of(2023, 1, i,10+i,10,0,0, ZoneId.of("Z")),clients.get(i % 3),trainings.get(i % 3),trainings.get(i % 3).getClub(), Rating.Good));
+		for (int i = 1; i <= 10; i++) {
+			visitRankings.add(new VisitRanking(ZonedDateTime.of(2023, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z")),
+					clients.get(i % 3), trainings.get(i % 3), trainings.get(i % 3).getClub(), Rating.Good));
 		}
 	}
 
@@ -122,11 +128,11 @@ public class FitnessBackApplication {
 	public void onReady(ApplicationReadyEvent e) {
 		saveList();
 		for (int i = 0; i < 3; i++) {
-			authenticationServiceService.register(new RegisterRequest(clients.get(i),password));
+			authenticationServiceService.register(new RegisterRequest(clients.get(i), password));
 		}
 
 		for (int i = 0; i < 10; i++) {
-			trainerService.saveTrainer(new TrainerPass(trainerList.get(i),password));
+			trainerService.saveTrainer(new TrainerPass(trainerList.get(i), password));
 		}
 		clubRepository.saveAll(clubs);
 		for (int i = 0; i < 3; i++) {
@@ -139,5 +145,6 @@ public class FitnessBackApplication {
 			trainingService.addClient(1L, clients.get(i));
 		}
 		visitRankingRepository.saveAll(visitRankings);
+		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),60L));
 	}
 }
