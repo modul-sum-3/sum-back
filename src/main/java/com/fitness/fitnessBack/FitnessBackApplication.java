@@ -1,26 +1,34 @@
 package com.fitness.fitnessBack;
 
+import com.fitness.fitnessBack.auth.model.RegisterRequest;
+import com.fitness.fitnessBack.auth.service.AuthenticationService;
+import com.fitness.fitnessBack.VisitRanking.model.Rating;
+import com.fitness.fitnessBack.VisitRanking.model.VisitRanking;
+import com.fitness.fitnessBack.VisitRanking.repository.VisitRankingRepository;
+import com.fitness.fitnessBack.carnet_transaction.model.CarnetTransaction;
+import com.fitness.fitnessBack.carnet_transaction.repository.TransactionRepository;
 import com.fitness.fitnessBack.client.model.Client;
-import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
+import com.fitness.fitnessBack.employee.model.EmployeePass;
+import com.fitness.fitnessBack.employee.service.EmployeeService;
 import com.fitness.fitnessBack.room.model.Room;
 import com.fitness.fitnessBack.room.repository.RoomRepository;
 import com.fitness.fitnessBack.category.model.Category;
 import com.fitness.fitnessBack.category.repository.CategoryRepository;
-import com.fitness.fitnessBack.empolyee.model.Employee;
-import com.fitness.fitnessBack.empolyee.repository.EmployeeRepository;
+import com.fitness.fitnessBack.employee.model.Employee;
 import com.fitness.fitnessBack.trainer.model.Trainer;
-import com.fitness.fitnessBack.trainer.repository.TrainerRepository;
+import com.fitness.fitnessBack.trainer.model.TrainerPass;
+import com.fitness.fitnessBack.trainer.service.TrainerService;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
+import com.fitness.fitnessBack.training.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -29,14 +37,15 @@ import java.util.List;
 
 @SpringBootApplication
 public class FitnessBackApplication {
+
 	@Autowired
-	private TrainerRepository trainerRepository;
+	private TrainerService trainerService;
 
 	@Autowired
 	private ClubRepository clubRepository;
 
 	@Autowired
-	private EmployeeRepository employeeRepository;
+	private EmployeeService employeeService;
 
 	@Autowired
 	private RoomRepository roomRepository;
@@ -45,12 +54,22 @@ public class FitnessBackApplication {
 	private CategoryRepository categoryRepository;
 
 	@Autowired
-	private ClientRepository clientRepository;
+	private AuthenticationService authenticationServiceService;
 
 	@Autowired
 	private TrainingRepository trainingRepository;
 
+	@Autowired
+	private VisitRankingRepository visitRankingRepository;
+
+	@Autowired
+	private TrainingService trainingService;
+
+	@Autowired
+	private TransactionRepository transactionRepository;
+
 	public static void main(String[] args) {
+		System.setProperty("spring.devtools.restart.enabled", "false");
 		SpringApplication.run(FitnessBackApplication.class, args);
 
 	}
@@ -59,7 +78,7 @@ public class FitnessBackApplication {
 	private List<Club> clubs = new ArrayList<>();
 	private List<Room> rooms = new ArrayList<>();
 
-	private List<Room> rooms2 = new ArrayList<>();
+	private List<VisitRanking> visitRankings = new ArrayList<>();
 
 	private List<Client> clients = new ArrayList<>();
 	private List<Category> categories = new ArrayList<>();
@@ -69,19 +88,21 @@ public class FitnessBackApplication {
 
 	private List<Employee> employees = new ArrayList<>();
 
+	private String password = "1234";
+
 	private void saveList() {
 		for (int i = 1; i <= 10; i++) {
 			trainerList.add(new Trainer("Jan", "Kowalski" + i, "emailTrener" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			clubs.add(new Club("name" + i));
+			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i));
 		}
 		for (int i = 1; i <= 3; i++) {
-			rooms.add(new Room("name" + i, icons, clubs.get(1)));
+			rooms.add(new Room("name" + i, clubs.get(1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			categories.add(new Category("name" + i, rooms));
+			categories.add(new Category("name" + i, rooms, icons));
 		}
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailEmployee" + i + "@google.com", "0000000",
@@ -95,17 +116,34 @@ public class FitnessBackApplication {
 			trainings.add(new Training(clubs.get(0), rooms.get(i - 1), trainerList.get(i - 1), categories.get(i - 1),
 					10, 60L, ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
 		}
+
+		for (int i = 1; i <= 10; i++) {
+			visitRankings.add(new VisitRanking(ZonedDateTime.of(2023, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z")),
+					clients.get(i % 3), trainings.get(i % 3), trainings.get(i % 3).getClub(), Rating.Good));
+		}
 	}
 
 	@EventListener
 	public void onReady(ApplicationReadyEvent e) {
 		saveList();
-		clientRepository.saveAll(clients);
-		trainerRepository.saveAll(trainerList);
+		for (int i = 0; i < 3; i++) {
+			authenticationServiceService.register(new RegisterRequest(clients.get(i), password));
+		}
+
+		for (int i = 0; i < 10; i++) {
+			trainerService.saveTrainer(new TrainerPass(trainerList.get(i), password));
+		}
 		clubRepository.saveAll(clubs);
-		employeeRepository.saveAll(employees);
+		for (int i = 0; i < 3; i++) {
+			employeeService.saveEmployee(new EmployeePass(employees.get(i), password));
+		}
 		categoryRepository.saveAll(categories);
 		roomRepository.saveAll(rooms);
 		trainingRepository.saveAll(trainings);
+		for (int i = 0; i < 3; i++) {
+			trainingService.addClient(1L, clients.get(i));
+		}
+		visitRankingRepository.saveAll(visitRankings);
+		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(), clients.get(0), 60L));
 	}
 }

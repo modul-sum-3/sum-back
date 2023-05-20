@@ -12,7 +12,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
-import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Set;
@@ -24,7 +23,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Nullable
     private Set<Client> clients;
 
@@ -51,6 +50,8 @@ public class Training {
     @FutureOrPresent
     @NotNull
     private ZonedDateTime StartDate;
+
+    private Boolean isConfirmed = false;
 
     @PositiveOrZero
     @NotNull

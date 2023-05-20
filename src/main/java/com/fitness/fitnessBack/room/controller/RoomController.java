@@ -9,10 +9,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Value
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping(value = "/rooms", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RoomController {
     RoomService roomService;
@@ -23,7 +24,7 @@ public class RoomController {
     }
 
     @GetMapping("/{id}")
-    public Room findOne(@PathVariable(value = "id") Long id) {
+    public Optional<Room> findOne(@PathVariable(value = "id") Long id) {
         return roomService.getOne(id);
     }
 

@@ -9,10 +9,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Value
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RequestMapping(value = "/categorys", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CategoryController {
     CategoryService categoryService;
@@ -23,7 +24,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public Category findOne(@PathVariable(value = "id") Long id) {
+    public Optional<Category> findOne(@PathVariable(value = "id") Long id) {
         return categoryService.getOne(id);
     }
 

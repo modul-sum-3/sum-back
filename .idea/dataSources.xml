@@ -8,5 +8,19 @@
       <jdbc-url>jdbc:sqlserver://localhost:5434</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="postgres@localhost" uuid="7327201a-f0e3-4bf7-803c-d2aea83b5cec">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="fitness_ahnl@dpg-chb54d67avjcvo3t05hg-a.frankfurt-postgres.render.com" uuid="3aaba389-ba24-4cea-9ce6-dd183d8e42ad">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://dpg-chb54d67avjcvo3t05hg-a.frankfurt-postgres.render.com:5432/fitness_ahnl</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

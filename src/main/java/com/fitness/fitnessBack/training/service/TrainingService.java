@@ -11,12 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.net.http.HttpHeaders;
-import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Value
@@ -32,8 +31,21 @@ public class TrainingService {
         return result;
     }
 
-    public Training getOne(Long id) {
-        return trainingRepository.findById(id).orElseThrow();
+    public List<Training> findAllAcceptedTrainings() {
+        List<Training> result = new ArrayList<>();
+        result.addAll(trainingRepository.findAllByIsConfirmed(true));
+
+        return result;
+    }
+
+    public Training confirmTraining(Long id, boolean isConfirmed) {
+        Training training = trainingRepository.findById(id).orElseThrow();
+        training.setIsConfirmed(isConfirmed);
+        return trainingRepository.save(training);
+    }
+
+    public Optional<Training> getOne(Long id) {
+        return trainingRepository.findById(id);
     }
 
     public Training saveTraining(Training training) {
@@ -76,14 +88,12 @@ public class TrainingService {
         Training training = trainingRepository.findById(TrainingID).orElseThrow();
         Client toAdd = clientRepository.getClientByEmailIgnoreCase(client.getEmail());
         if (training.getClients().size() < training.getAmount()) {
-            if (toAdd.equals(null)) {
-                clientRepository.save(toAdd);
+            if (!toAdd.equals(null)) {
                 training.getClients().add(toAdd);
-            } else {
-                training.getClients().add(toAdd);
+                trainingRepository.save(training);
+                return training;
             }
-            trainingRepository.save(training);
-            return training;
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User no exists!");
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Training limit is full!");
 
