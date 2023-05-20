@@ -27,6 +27,19 @@ public class TrainingService {
         return result;
     }
 
+    public List<Training> findAllAcceptedTrainings() {
+        List<Training> result = new ArrayList<>();
+        result.addAll(trainingRepository.findAllByIsConfirmed(true));
+
+        return result;
+    }
+
+    public Training confirmTraining(Long id, boolean isConfirmed) {
+        Training training = trainingRepository.findById(id).orElseThrow();
+        training.setIsConfirmed(isConfirmed);
+        return trainingRepository.save(training);
+    }
+
     public Optional<Training> getOne(Long id) {
         return trainingRepository.findById(id);
     }

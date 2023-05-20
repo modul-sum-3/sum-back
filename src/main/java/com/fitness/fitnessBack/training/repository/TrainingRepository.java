@@ -12,6 +12,6 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
 
     List<Training> findAllByCategory(Category category);
 
-
+    List<Training> findAllByIsConfirmed(boolean isConfirmed);
 
 }
