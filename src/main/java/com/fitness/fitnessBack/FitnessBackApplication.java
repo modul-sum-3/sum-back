@@ -151,7 +151,7 @@ public class FitnessBackApplication {
 			trainingService.addClient(1L, clients.get(i));
 		}
 		visitRankingRepository.saveAll(visitRankings);
-		carnetRepository.save(new Carnet(60.00,30L,categories));
-		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),1L));
+		Carnet carnet = carnetRepository.save(new Carnet(60.00,30L,categories));
+		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),carnet.getId()));
 	}
 }

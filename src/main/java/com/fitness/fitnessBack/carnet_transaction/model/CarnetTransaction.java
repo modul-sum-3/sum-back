@@ -23,14 +23,14 @@ public class CarnetTransaction {
     @JoinColumn(name="Client_ID", nullable=false, updatable=false)
     private Client ClientID;
 
-    private Long carnetID;
+    private String carnetID;
     @NotNull
     private double Price;
 
     public CarnetTransaction() {
     }
 
-    public CarnetTransaction(ZonedDateTime transactionDate, Client clientID, Long carnetID) {
+    public CarnetTransaction(ZonedDateTime transactionDate, Client clientID, String carnetID) {
         this.transactionDate = transactionDate;
         ClientID = clientID;
         this.carnetID = carnetID;
