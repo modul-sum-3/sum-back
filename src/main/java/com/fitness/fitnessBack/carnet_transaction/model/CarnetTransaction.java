@@ -22,7 +22,7 @@ public class CarnetTransaction {
     @ManyToOne(optional = false)
     @JoinColumn(name="Client_ID", nullable=false, updatable=false)
     private Client ClientID;
-    @NotNull
+
     private Long carnetID;
     @NotNull
     private double Price;
@@ -30,10 +30,10 @@ public class CarnetTransaction {
     public CarnetTransaction() {
     }
 
-    public CarnetTransaction(ZonedDateTime transactionDate, Client clientID, double price) {
+    public CarnetTransaction(ZonedDateTime transactionDate, Client clientID, Long carnetID) {
         this.transactionDate = transactionDate;
         ClientID = clientID;
-        Price = price;
+        this.carnetID = carnetID;
 
     }
 }

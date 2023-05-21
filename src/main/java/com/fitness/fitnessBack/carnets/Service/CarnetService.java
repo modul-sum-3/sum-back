@@ -18,7 +18,7 @@ public class CarnetService {
     public List<Carnet> getAll() {
         return carnetRepository.findAll(Sort.by(Sort.Direction.ASC,"price"));
     }
-    public Optional<Carnet> getOne(Long id) {
+    public Optional<Carnet> getOne(String id) {
         if(carnetRepository.findById(id).isPresent()) {
             return carnetRepository.findById(id);
         } else {

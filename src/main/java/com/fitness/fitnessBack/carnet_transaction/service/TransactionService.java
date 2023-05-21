@@ -40,7 +40,7 @@ public class TransactionService {
     }
     public ResponseEntity<?> saveTransaction(CarnetTransaction carnetTransaction, User user) {
         Client client = clientRepository.findById(user.getId()).get();
-        Carnet choose = carnetRepository.findById(carnetTransaction.getCarnetID()).get();
+        Carnet choose = carnetRepository.findById(carnetTransaction.getCarnetID().toString()).get();
         carnetTransaction.setPrice(choose.getPrice());
         if(client.getBalance() < carnetTransaction.getPrice()) {
             return ResponseEntity.badRequest().body("You can't afford this carnet!");

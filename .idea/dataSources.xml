@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:sqlserver://localhost:5434</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="postgres@localhost" uuid="7327201a-f0e3-4bf7-803c-d2aea83b5cec">
-      <driver-ref>postgresql</driver-ref>
+    <data-source source="LOCAL" name="@localhost MonogoDB" uuid="ea73ab5a-3f43-48bd-a1f9-5c237efdab7b">
+      <driver-ref>mongo</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+      <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
+      <jdbc-url>mongodb://localhost:27017</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

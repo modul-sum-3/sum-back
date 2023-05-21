@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface CarnetRepository extends MongoRepository<Carnet, Long> {
+public interface CarnetRepository extends MongoRepository<Carnet, String> {
 }
