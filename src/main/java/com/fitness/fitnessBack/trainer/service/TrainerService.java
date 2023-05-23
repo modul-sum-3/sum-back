@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 @Service
 @Value
@@ -22,19 +23,21 @@ public class TrainerService {
     TrainerRepository trainerRepository;
     UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
     public List<Trainer> getAll() {
         List<Trainer> result = new ArrayList<>();
         result.addAll(trainerRepository.findAll());
 
         return result;
     }
-    public Trainer getOne(UUID id) {
-        return trainerRepository.findById(id).orElseThrow();
+
+    public Optional<Trainer> getOne(UUID id) {
+        return trainerRepository.findById(id);
     }
 
     public Trainer saveTrainer(TrainerPass trainer) {
 
-        if(userRepository.findByEmail(trainer.getTrainer().getEmail()).isPresent()){
+        if (userRepository.findByEmail(trainer.getTrainer().getEmail()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User Already Exists!");
         }
         Trainer saved = trainerRepository.save(trainer.getTrainer());
@@ -48,7 +51,7 @@ public class TrainerService {
         return saved;
     }
 
-    public Trainer deleteTrainer(UUID id){
+    public Trainer deleteTrainer(UUID id) {
         Trainer result = trainerRepository.findById(id).orElseThrow();
         trainerRepository.delete(result);
         return result;

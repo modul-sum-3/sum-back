@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Value
@@ -20,8 +21,8 @@ public class CategoryService {
         return result;
     }
 
-    public Category getOne(Long id) {
-        return categoryRepository.findById(id).orElseThrow();
+    public Optional<Category> getOne(Long id) {
+        return categoryRepository.findById(id);
     }
 
     public Category saveCategory(Category category) {

@@ -22,12 +22,17 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Room> roomList;
 
-    public Category(String name, List<Room> roomList) {
+    // @NotEmpty(message = "icon can't be empty")
+    @Column(name = "icon", nullable = true)
+    private byte[] icon;
+
+    public Category(String name, List<Room> roomList, byte[] icon) {
         this.name = name;
         this.roomList = roomList;
+        this.icon = icon;
     }
 
     public Category() {
