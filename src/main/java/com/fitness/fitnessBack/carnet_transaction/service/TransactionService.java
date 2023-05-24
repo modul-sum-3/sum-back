@@ -6,17 +6,21 @@ import com.fitness.fitnessBack.carnets.model.Carnet;
 import com.fitness.fitnessBack.carnets.repository.CarnetRepository;
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.client.repository.ClientRepository;
+import com.fitness.fitnessBack.user.model.Role;
 import com.fitness.fitnessBack.user.model.User;
 
 import lombok.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Value
@@ -37,6 +41,12 @@ public class TransactionService {
 
     public List<CarnetTransaction> findBefore(){
         return transactionRepository.findCarnetTransactionByExpireDateBefore(ZonedDateTime.now());
+    }
+    public List<CarnetTransaction> findByClient(UUID id, User user) {
+        if(user.getRole().equals(Role.EMPLOYEE) || user.getRole().equals(Role.MANAGER)) {
+            return transactionRepository.findCarnetTransactionByClientID(id);
+        }
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't see Transaction!");
     }
     public ResponseEntity<?> saveTransaction(CarnetTransaction carnetTransaction, User user) {
         Client client = clientRepository.findById(user.getId()).get();

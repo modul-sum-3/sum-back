@@ -1,7 +1,9 @@
-package com.fitness.fitnessBack.carnets.Service;
+package com.fitness.fitnessBack.carnets.service;
 
 import com.fitness.fitnessBack.carnets.model.Carnet;
 import com.fitness.fitnessBack.carnets.repository.CarnetRepository;
+import com.fitness.fitnessBack.user.model.Role;
+import com.fitness.fitnessBack.user.model.User;
 import lombok.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -25,8 +27,11 @@ public class CarnetService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Doesn't exist carnet with that id!");
         }
     }
-    public Carnet createCarnet(Carnet carnet){
-        return carnetRepository.save(carnet);
+    public Carnet createCarnet(Carnet carnet, User user) {
+        if(user.getRole().equals(Role.EMPLOYEE) || user.getRole().equals(Role.MANAGER) ) {
+            return carnetRepository.save(carnet);
+        }
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't create Carnets!");
     }
 
 }

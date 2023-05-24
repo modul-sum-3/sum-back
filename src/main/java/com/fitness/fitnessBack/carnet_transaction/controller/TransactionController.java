@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @Value
@@ -28,6 +29,10 @@ public class TransactionController {
     @GetMapping("/{id}")
     public Optional<CarnetTransaction> findOne(@PathVariable(value = "id") Long id) {
         return transactionService.getOne(id);
+    }
+    @GetMapping("/client/{id}")
+    public List<CarnetTransaction> findByClient(@PathVariable(value = "id") UUID id, @AuthenticationPrincipal User user) {
+        return transactionService.findByClient(id, user);
     }
     @GetMapping("/active")
     public List<CarnetTransaction> findBefore() {
