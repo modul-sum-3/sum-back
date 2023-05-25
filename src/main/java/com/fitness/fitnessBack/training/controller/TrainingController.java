@@ -28,6 +28,19 @@ public class TrainingController {
         return trainingService.getOne(id);
     }
 
+    @GetMapping("/confirmed")
+    public List<Training> findAllAcceptedTrainings() {
+        return trainingService.findAllAcceptedTrainings();
+    }
+
+    @PutMapping("/{id}/confirmed")
+    public Training confirmTraining(
+            @PathVariable(value = "id") Long id,
+            @RequestParam("isConfirmed") boolean isConfirmed) {
+
+        return trainingService.confirmTraining(id, isConfirmed);
+    }
+
     @PostMapping
     public Training saveTraining(@Valid @RequestBody Training training) {
         return trainingService.saveTraining(training);
