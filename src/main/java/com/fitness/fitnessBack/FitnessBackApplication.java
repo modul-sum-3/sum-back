@@ -7,6 +7,8 @@ import com.fitness.fitnessBack.VisitRanking.model.VisitRanking;
 import com.fitness.fitnessBack.VisitRanking.repository.VisitRankingRepository;
 import com.fitness.fitnessBack.carnet_transaction.model.CarnetTransaction;
 import com.fitness.fitnessBack.carnet_transaction.repository.TransactionRepository;
+import com.fitness.fitnessBack.carnets.model.Carnet;
+import com.fitness.fitnessBack.carnets.repository.CarnetRepository;
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
@@ -28,6 +30,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -36,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
+@EnableMongoRepositories
 public class FitnessBackApplication {
 
 	@Autowired
@@ -67,6 +71,9 @@ public class FitnessBackApplication {
 
 	@Autowired
 	private TransactionRepository transactionRepository;
+
+	@Autowired
+	private CarnetRepository carnetRepository;
 
 	public static void main(String[] args) {
 		System.setProperty("spring.devtools.restart.enabled", "false");
@@ -144,6 +151,7 @@ public class FitnessBackApplication {
 			trainingService.addClient(1L, clients.get(i));
 		}
 		visitRankingRepository.saveAll(visitRankings);
-		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(), clients.get(0), 60L));
+		Carnet carnet = carnetRepository.save(new Carnet(60.00,30L,categories));
+		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),carnet.getId()));
 	}
 }
