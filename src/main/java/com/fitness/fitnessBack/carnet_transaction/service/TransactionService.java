@@ -44,7 +44,7 @@ public class TransactionService {
     }
     public List<CarnetTransaction> findByClient(UUID id, User user) {
         if(user.getRole().equals(Role.EMPLOYEE) || user.getRole().equals(Role.MANAGER)) {
-            return transactionRepository.findCarnetTransactionByClientID(id);
+            return transactionRepository.findCarnetTransactionByClientID(clientRepository.findById(id).orElseThrow());
         }
         throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't see Transaction!");
     }
