@@ -36,7 +36,7 @@ public class Client {
     @Past
     private LocalDate date_of_birth;
 
-    @NotNull(message = "must be a number or null")
+    @NotNull(message = "must be a number")
     private String phoneNumber;
 
     @Email
