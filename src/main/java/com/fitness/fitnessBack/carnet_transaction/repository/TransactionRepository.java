@@ -8,6 +8,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<CarnetTransaction, Long> {
-    List<CarnetTransaction> findCarnetTransactionByExpireDateBefore(ZonedDateTime now);
+    List<CarnetTransaction> findCarnetTransactionByExpireDateAfter(ZonedDateTime now);
     List<CarnetTransaction> findCarnetTransactionByClientID(Client clientID);
 }

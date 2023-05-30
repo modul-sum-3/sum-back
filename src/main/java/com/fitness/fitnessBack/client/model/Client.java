@@ -36,7 +36,7 @@ public class Client {
     @Past
     private LocalDate date_of_birth;
 
-    @Pattern(regexp = "^[\\+]?[(]?[0-9]{3}[)]?[-\\s\\.]?[0-9]{3}[-\\s\\.]?[0-9]{4,6}$", message = "must be a number or null")
+    @NotNull(message = "must be a number or null")
     private String phoneNumber;
 
     @Email

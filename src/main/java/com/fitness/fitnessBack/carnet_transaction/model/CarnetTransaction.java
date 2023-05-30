@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Data
@@ -32,6 +33,7 @@ public class CarnetTransaction {
 
     public CarnetTransaction(ZonedDateTime transactionDate, Client clientID, String carnetID) {
         this.transactionDate = transactionDate;
+        this.expireDate = transactionDate.plus(31L, ChronoUnit.DAYS);
         this.clientID = clientID;
         this.carnetID = carnetID;
 

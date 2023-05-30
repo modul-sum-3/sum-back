@@ -40,7 +40,7 @@ public class TransactionService {
     }
 
     public List<CarnetTransaction> findBefore(){
-        return transactionRepository.findCarnetTransactionByExpireDateBefore(ZonedDateTime.now());
+        return transactionRepository.findCarnetTransactionByExpireDateAfter(ZonedDateTime.now());
     }
     public List<CarnetTransaction> findByClient(UUID id, User user) {
         if(user.getRole().equals(Role.EMPLOYEE) || user.getRole().equals(Role.MANAGER)) {
