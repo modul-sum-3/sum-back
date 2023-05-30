@@ -4,9 +4,12 @@ import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.room.model.Room;
 import com.fitness.fitnessBack.trainer.model.Trainer;
+import com.fitness.fitnessBack.trainer.repository.TrainerRepository;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import lombok.Value;
+
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +19,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Value
@@ -23,6 +27,7 @@ public class TrainingService {
 
     TrainingRepository trainingRepository;
     ClientRepository clientRepository;
+    TrainerRepository trainerRepository;
 
     public List<Training> getAll() {
         List<Training> result = new ArrayList<>();
@@ -36,6 +41,30 @@ public class TrainingService {
         result.addAll(trainingRepository.findAllByIsConfirmed(true));
 
         return result;
+    }
+
+    public List<Training> findAllByClient(UUID clientId) {
+        List<Training> result = new ArrayList<>();
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+    
+        if (clientOptional.isPresent()) {
+        Client client = clientOptional.get();
+        result.addAll(trainingRepository.findAllByClient(client));
+    }
+    
+    return result;
+    }
+
+    public List<Training> findAllByTrainer(UUID trainerId) {
+        List<Training> result = new ArrayList<>();
+        Optional<Trainer> trainerOptional = trainerRepository.findById(trainerId);
+
+        if (trainerOptional.isPresent()) {
+            Trainer trainer = trainerOptional.get();
+            result.addAll(trainingRepository.findAllByTrainer(trainer));
+    }
+    
+    return result;
     }
 
     public Training confirmTraining(Long id, boolean isConfirmed) {
