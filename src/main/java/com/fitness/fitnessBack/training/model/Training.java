@@ -13,6 +13,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Data;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Set;
 
 @Entity
@@ -22,7 +23,7 @@ public class Training {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Nullable
     private Set<Client> clients;
 
@@ -39,7 +40,7 @@ public class Training {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name="club_id", nullable = false)
+    @JoinColumn(name = "club_id", nullable = false)
     public Club club;
 
     @PositiveOrZero
@@ -50,17 +51,28 @@ public class Training {
     @NotNull
     private ZonedDateTime StartDate;
 
+    private Boolean isConfirmed = false;
 
-    public Training(Club club,Room room, Trainer trainer, Category category, int amount, ZonedDateTime date) {
+    @PositiveOrZero
+    @NotNull
+    private Long duration;
+
+    public Training(Club club, Room room, Trainer trainer, Category category, int amount, Long duration,
+            ZonedDateTime date) {
         this.room = room;
         this.club = club;
         this.trainer = trainer;
         this.category = category;
         Amount = amount;
+        this.duration = duration;
         StartDate = date;
     }
 
     public Training() {
 
+    }
+
+    public ZonedDateTime getEndTime() {
+        return StartDate.plus(duration, ChronoUnit.MINUTES);
     }
 }
