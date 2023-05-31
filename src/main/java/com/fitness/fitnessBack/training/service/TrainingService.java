@@ -48,10 +48,15 @@ public class TrainingService {
         Optional<Client> clientOptional = clientRepository.findById(clientId);
     
         if (clientOptional.isPresent()) {
-        Client client = clientOptional.get();
-        result.addAll(trainingRepository.findAllByClient(client));
-    }
-    
+            Client client = clientOptional.get();
+            for (Training t : trainingRepository.findAll()) {
+                for (Client c : t.getClients()) {
+                    if (c.getId() == (client.getId())) {
+                        result.add(t);
+                    }
+                }
+            }
+        }
     return result;
     }
 
@@ -61,10 +66,25 @@ public class TrainingService {
 
         if (trainerOptional.isPresent()) {
             Trainer trainer = trainerOptional.get();
-            result.addAll(trainingRepository.findAllByTrainer(trainer));
-    }
+
+            for (Training t : trainingRepository.findAll()) {
+                if (t.getTrainer().getId() == (trainer.getId())) {
+                    result.add(t);
+                }
+            }
+        }
     
     return result;
+    }
+
+    public List<Training> findAllByClub(long clubId) {
+        List<Training> result = new ArrayList<>();
+        for (Training t : trainingRepository.findAll()) {
+            if (t.getClub().getId() == (clubId)) {
+                result.add(t);
+            }
+        }
+        return result;
     }
 
     public Training confirmTraining(Long id, boolean isConfirmed) {

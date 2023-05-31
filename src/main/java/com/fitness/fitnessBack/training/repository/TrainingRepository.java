@@ -18,8 +18,4 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
 
     List<Training> findAllByIsConfirmed(boolean isConfirmed);
 
-    List<Training> findAllByClient(Client client);
-
-    List<Training> findAllByTrainer(Trainer trainer);
-
 }

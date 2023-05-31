@@ -44,6 +44,11 @@ public class TrainingController {
         return trainingService.findAllByTrainer(trainerId);
     }
 
+    @GetMapping("/club/{clubId}")
+    public List<Training> findAllByClub(@PathVariable(value = "clubId") long clubId) {
+        return trainingService.findAllByClub(clubId);
+    }
+
     @PutMapping("/{id}/confirmed")
     public Training confirmTraining(
             @PathVariable(value = "id") Long id,
