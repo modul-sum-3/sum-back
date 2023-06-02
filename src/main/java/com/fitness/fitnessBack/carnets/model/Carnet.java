@@ -20,9 +20,12 @@ public class Carnet {
     private Long duration;
     private List<Category> access_categories;
 
-    public Carnet(Double price, Long duration, List<Category> access_categories) {
+    private String description;
+
+    public Carnet(Double price, Long duration, List<Category> access_categories,String description) {
         this.price = price;
         this.duration = duration;
         this.access_categories = access_categories;
+        this.duration = duration;
     }
 }
