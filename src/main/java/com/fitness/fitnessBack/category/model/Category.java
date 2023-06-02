@@ -7,6 +7,7 @@ import com.fitness.fitnessBack.room.model.Room;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Entity
@@ -22,16 +23,19 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
+    @NotEmpty
+    @NotNull
     private List<Room> roomList;
 
     // @NotEmpty(message = "icon can't be empty")
+    @Lob
     @Column(name = "icon", nullable = true)
     private byte[] icon;
 
-    public Category(String name, List<Room> roomList, byte[] icon) {
+    public Category(String name,List<Room> rooms,byte[] icon) {
         this.name = name;
-        this.roomList = roomList;
+        this.roomList = rooms;
         this.icon = icon;
     }
 
