@@ -3,6 +3,7 @@ package com.fitness.fitnessBack.VisitRanking.model;
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.training.model.Training;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
@@ -25,6 +26,7 @@ public class VisitRanking {
     private Client client;
 
     @ManyToOne
+    @Nullable
     @JoinColumn(name="TrainingID", nullable=false)
     private Training training;
 
