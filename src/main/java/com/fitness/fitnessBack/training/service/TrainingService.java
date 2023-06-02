@@ -4,9 +4,12 @@ import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.room.model.Room;
 import com.fitness.fitnessBack.trainer.model.Trainer;
+import com.fitness.fitnessBack.trainer.repository.TrainerRepository;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import lombok.Value;
+
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,6 +19,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Value
@@ -23,6 +27,7 @@ public class TrainingService {
 
     TrainingRepository trainingRepository;
     ClientRepository clientRepository;
+    TrainerRepository trainerRepository;
 
     public List<Training> getAll() {
         List<Training> result = new ArrayList<>();
@@ -35,6 +40,50 @@ public class TrainingService {
         List<Training> result = new ArrayList<>();
         result.addAll(trainingRepository.findAllByIsConfirmed(true));
 
+        return result;
+    }
+
+    public List<Training> findAllByClient(UUID clientId) {
+        List<Training> result = new ArrayList<>();
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+    
+        if (clientOptional.isPresent()) {
+            Client client = clientOptional.get();
+            for (Training t : trainingRepository.findAll()) {
+                for (Client c : t.getClients()) {
+                    if (c.getId() == (client.getId())) {
+                        result.add(t);
+                    }
+                }
+            }
+        }
+    return result;
+    }
+
+    public List<Training> findAllByTrainer(UUID trainerId) {
+        List<Training> result = new ArrayList<>();
+        Optional<Trainer> trainerOptional = trainerRepository.findById(trainerId);
+
+        if (trainerOptional.isPresent()) {
+            Trainer trainer = trainerOptional.get();
+
+            for (Training t : trainingRepository.findAll()) {
+                if (t.getTrainer().getId() == (trainer.getId())) {
+                    result.add(t);
+                }
+            }
+        }
+    
+    return result;
+    }
+
+    public List<Training> findAllByClub(long clubId) {
+        List<Training> result = new ArrayList<>();
+        for (Training t : trainingRepository.findAll()) {
+            if (t.getClub().getId() == (clubId)) {
+                result.add(t);
+            }
+        }
         return result;
     }
 

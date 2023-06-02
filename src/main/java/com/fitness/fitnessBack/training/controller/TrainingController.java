@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @Value
@@ -31,6 +32,21 @@ public class TrainingController {
     @GetMapping("/confirmed")
     public List<Training> findAllAcceptedTrainings() {
         return trainingService.findAllAcceptedTrainings();
+    }
+
+    @GetMapping("/client/{clientId}")
+    public List<Training> findAllByClient(@PathVariable(value = "clientId") UUID clientId) {
+        return trainingService.findAllByClient(clientId);
+    }
+
+    @GetMapping("/trainer/{trainerId}")
+    public List<Training> findAllByTrainer(@PathVariable(value = "trainerId") UUID trainerId) {
+        return trainingService.findAllByTrainer(trainerId);
+    }
+
+    @GetMapping("/club/{clubId}")
+    public List<Training> findAllByClub(@PathVariable(value = "clubId") long clubId) {
+        return trainingService.findAllByClub(clubId);
     }
 
     @PutMapping("/{id}/confirmed")
