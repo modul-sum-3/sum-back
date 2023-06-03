@@ -33,11 +33,21 @@ public class Club {
     @Column(name = "street", nullable = false)
     private String street;
 
+    @NotBlank
+    @NotEmpty(message = "street can't be empty")
+    private String open;
+
+    @NotBlank
+    @NotEmpty(message = "street can't be empty")
+    private String close;
+
     public Club(String name, String country, String city, String street) {
         this.name = name;
         this.country = country;
         this.city = city;
         this.street = street;
+        this.open = "8:00";
+        this.close = "23:45";
     }
 
     public Club() {
