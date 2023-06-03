@@ -1,10 +1,13 @@
 package com.fitness.fitnessBack.room.model;
 
+
 import com.fitness.fitnessBack.club.model.Club;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+
+
 
 @Entity
 @Table(name = "Room")

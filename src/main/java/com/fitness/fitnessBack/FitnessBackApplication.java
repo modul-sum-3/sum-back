@@ -25,6 +25,8 @@ import com.fitness.fitnessBack.trainer.service.TrainerService;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import com.fitness.fitnessBack.training.service.TrainingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,6 +34,9 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -75,7 +80,7 @@ public class FitnessBackApplication {
 
 	@Autowired
 	private CarnetRepository carnetRepository;
-
+	Logger logger = LoggerFactory.getLogger(FitnessBackApplication.class);
 	public static void main(String[] args) {
 		System.setProperty("spring.devtools.restart.enabled", "false");
 		SpringApplication.run(FitnessBackApplication.class, args);
@@ -89,10 +94,20 @@ public class FitnessBackApplication {
 	private List<VisitRanking> visitRankings = new ArrayList<>();
 
 	private List<Client> clients = new ArrayList<>();
+
 	private List<Category> categories = new ArrayList<>();
 
 	private List<Training> trainings = new ArrayList<>();
+
 	private byte[] icons;
+
+	{
+		try {
+			icons = Files.readAllBytes(Paths.get("src\\main\\resources\\Icons\\Gym-Transparent.png"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 	private List<Employee> employees = new ArrayList<>();
 
@@ -145,14 +160,14 @@ public class FitnessBackApplication {
 		for (int i = 0; i < 3; i++) {
 			employeeService.saveEmployee(new EmployeePass(employees.get(i), password));
 		}
-		categoryRepository.saveAll(categories);
 		roomRepository.saveAll(rooms);
+		categoryRepository.saveAll(categories);
 		trainingRepository.saveAll(trainings);
 		for (int i = 0; i < 3; i++) {
 			trainingService.addClient(1L, clients.get(i));
 		}
 		visitRankingRepository.saveAll(visitRankings);
-		Carnet carnet = carnetRepository.save(new Carnet(60.00,30L,categories));
+		Carnet carnet = carnetRepository.save(new Carnet(60.00,30L,categories,"description"));
 		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),carnet.getId()));
 	}
 }
