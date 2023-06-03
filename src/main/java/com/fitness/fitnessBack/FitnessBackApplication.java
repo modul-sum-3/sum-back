@@ -34,9 +34,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -100,14 +97,6 @@ public class FitnessBackApplication {
 	private List<Training> trainings = new ArrayList<>();
 
 	private byte[] icons;
-
-	{
-		try {
-			icons = Files.readAllBytes(Paths.get("src\\main\\resources\\Icons\\Gym-Transparent.png"));
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	private List<Employee> employees = new ArrayList<>();
 
