@@ -34,20 +34,20 @@ public class Club {
     private String street;
 
     @NotBlank
-    @NotEmpty(message = "street can't be empty")
-    private String open;
+    @NotEmpty(message = "Open time can't be empty")
+    private String openTime;
 
     @NotBlank
-    @NotEmpty(message = "street can't be empty")
-    private String close;
+    @NotEmpty(message = "Close time can't be empty")
+    private String closeTime;
 
     public Club(String name, String country, String city, String street) {
         this.name = name;
         this.country = country;
         this.city = city;
         this.street = street;
-        this.open = "8:00";
-        this.close = "23:45";
+        this.openTime = "8:00";
+        this.closeTime = "23:45";
     }
 
     public Club() {
