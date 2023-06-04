@@ -5,6 +5,7 @@ import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.training.model.Training;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Data;
 
@@ -19,22 +20,28 @@ public class VisitRanking {
     private long id;
 
     @PastOrPresent
+    @NotNull
     ZonedDateTime Start_visit;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="ClientID", nullable=false)
+
+    @PastOrPresent
+    @Nullable
+    ZonedDateTime End_visit;
+
+    @ManyToOne
+    @JoinColumn(name = "ClientID", nullable = false)
     private Client client;
 
     @ManyToOne
-    @Nullable
-    @JoinColumn(name="TrainingID", nullable=false)
+    @JoinColumn(name = "TrainingID")
     private Training training;
 
     @ManyToOne
-    @JoinColumn(name="ClubID", nullable=false)
+    @JoinColumn(name = "ClubID", nullable = false)
     private Club club;
 
     @Enumerated(EnumType.STRING)
+    @Nullable
     private Rating rating;
 
     public VisitRanking(ZonedDateTime start_visit, Client client, Training training, Club club, Rating rating) {
@@ -43,6 +50,7 @@ public class VisitRanking {
         this.training = training;
         this.club = club;
         this.rating = rating;
+        this.End_visit = ZonedDateTime.now();
     }
 
     public VisitRanking() {
