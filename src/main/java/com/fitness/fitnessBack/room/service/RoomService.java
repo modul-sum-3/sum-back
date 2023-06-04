@@ -1,5 +1,8 @@
 package com.fitness.fitnessBack.room.service;
 
+import com.fitness.fitnessBack.category.repository.CategoryRepository;
+import com.fitness.fitnessBack.club.model.Club;
+import com.fitness.fitnessBack.club.repository.ClubRepository;
 import com.fitness.fitnessBack.room.model.Room;
 import com.fitness.fitnessBack.room.repository.RoomRepository;
 import lombok.Value;
@@ -12,6 +15,8 @@ import java.util.Optional;
 @Service
 @Value
 public class RoomService {
+    CategoryRepository categoryRepository;
+    ClubRepository clubRepository;
     RoomRepository roomRepository;
 
     public List<Room> getAll() {
@@ -25,8 +30,17 @@ public class RoomService {
         return roomRepository.findById(id);
     }
 
-    public Room saveRoom(Room room) {
-        return roomRepository.save(room);
+    public Room saveRoom(Room room, Long clubId) {
+        Club club = clubRepository.findById(clubId).orElseThrow();
+        club.getRooms().add(room);
+        Room result = roomRepository.save(room);
+        clubRepository.save(club);
+        return result;
+    }
+    public Room addCategory(Long roomId,Long categoryId) {
+        Room result = roomRepository.findById(roomId).orElseThrow();
+        result.getCategoryList().add(categoryRepository.findById(categoryId).orElseThrow());
+        return roomRepository.save(result);
     }
 
     public Room deleteRoom(Long id) {

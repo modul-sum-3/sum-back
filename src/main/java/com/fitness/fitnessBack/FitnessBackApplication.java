@@ -124,20 +124,20 @@ public class FitnessBackApplication {
 					LocalDate.of(1999, i, 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i));
+			categories.add(new Category("name" + i, null));
 		}
 		for (int i = 1; i <= 3; i++) {
-			rooms.add(new Room("name" + i, clubs.get(1)));
+			rooms.add(new Room("name" + i, categories));
 		}
 		for (int i = 1; i <= 3; i++) {
-			categories.add(new Category("name" + i, rooms, icons));
+			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i, List.of(rooms.get(i-1))));
 		}
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailEmployee" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1), clubs.get(i - 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			trainings.add(new Training(clubs.get(0), rooms.get(i - 1), trainerList.get(i - 1), categories.get(i - 1),
+			trainings.add(new Training(clubs.get(i-1), rooms.get(i - 1), trainerList.get(i - 1),
 					10, 60L, ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
 		}
 
@@ -161,12 +161,12 @@ public class FitnessBackApplication {
 		for (int i = 0; i < 10; i++) {
 			trainerService.saveTrainer(new TrainerPass(trainerList.get(i), password));
 		}
+		categoryRepository.saveAll(categories);
+		roomRepository.saveAll(rooms);
 		clubRepository.saveAll(clubs);
 		for (int i = 0; i < 3; i++) {
 			employeeService.saveEmployee(new EmployeePass(employees.get(i), password));
 		}
-		roomRepository.saveAll(rooms);
-		categoryRepository.saveAll(categories);
 		trainingRepository.saveAll(trainings);
 
 		for (int i = 0; i < 3; i++) {
