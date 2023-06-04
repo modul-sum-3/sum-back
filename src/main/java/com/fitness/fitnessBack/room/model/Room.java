@@ -1,11 +1,13 @@
 package com.fitness.fitnessBack.room.model;
 
 
-import com.fitness.fitnessBack.club.model.Club;
+import com.fitness.fitnessBack.category.model.Category;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+
+import java.util.List;
 
 
 
@@ -22,13 +24,12 @@ public class Room {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @ManyToOne
-    @JoinColumn(name = "club_id", nullable = false)
-    public Club club;
+    @ManyToMany
+    private List<Category> categoryList;
 
-    public Room(String type, Club club) {
+    public Room(String type, List<Category> categorySet) {
         this.type = type;
-        this.club = club;
+        this.categoryList = categorySet;
     }
 
     public Room() {
