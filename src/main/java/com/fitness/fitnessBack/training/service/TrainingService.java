@@ -9,7 +9,6 @@ import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import lombok.Value;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -135,7 +134,7 @@ public class TrainingService {
 
     public Training addClient(Long TrainingID, Client client) {
         Training training = trainingRepository.findById(TrainingID).orElseThrow();
-        Client toAdd = clientRepository.getClientByEmailIgnoreCase(client.getEmail());
+        Client toAdd = clientRepository.findById(client.getId()).orElseThrow();
         if (training.getClients().size() < training.getAmount()) {
             if (!toAdd.equals(null)) {
                 training.getClients().add(toAdd);
@@ -145,6 +144,17 @@ public class TrainingService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User no exists!");
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Training limit is full!");
+    }
 
+    public Training RemoveClient(Long TrainingID,Client client) {
+        Training training = trainingRepository.findById(TrainingID).orElseThrow();
+        for( Client saved: training.getClients()) {
+            if(saved.getId().equals(client.getId())) {
+                training.getClients().remove(saved);
+                trainingRepository.save(training);
+                return training;
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "User not enrolled to this training!");
     }
 }
