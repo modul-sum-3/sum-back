@@ -1,5 +1,6 @@
 package com.fitness.fitnessBack.training.model;
 
+import com.fitness.fitnessBack.category.model.Category;
 import com.fitness.fitnessBack.client.model.Client;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.room.model.Room;
@@ -38,6 +39,10 @@ public class Training {
     @JoinColumn(name = "club_id", nullable = false)
     public Club club;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    public Category category;
+
     @PositiveOrZero
     @NotNull
     private int Amount;
@@ -52,9 +57,10 @@ public class Training {
     @NotNull
     private Long duration;
 
-    public Training(Club club, Room room, Trainer trainer, int amount, Long duration,
+    public Training(Club club,Category category, Room room, Trainer trainer, int amount, Long duration,
             ZonedDateTime date) {
         this.room = room;
+        this.category = category;
         this.club = club;
         this.trainer = trainer;
         Amount = amount;
