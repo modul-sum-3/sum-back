@@ -165,7 +165,10 @@ public class FitnessBackApplication {
 		trainings = trainingRepository.findAll();
 
 		visitRankingRepository.saveAll(visitRankings);
-		Carnet carnet = carnetRepository.save(new Carnet(60.00,30L,categories,"description"));
+		Carnet carnet = carnetRepository.save(new Carnet(30.00,"FIT CLASSIC",30L,categories,"Classic one-month pass. Allows you to use the gym as well as any type of training available. Suggested option for those who want to see if our gyms and workouts suit you."));
+		carnetRepository.save(new Carnet(20.00,"STUDENT CLASSIC",30L,categories,"One-month pass for students. Allows you to use the gym as well as any type of training available. Suggested option for those who want to see if our gyms and workouts suit you. At the entrance to the gym, you must show your student ID card"));
+		carnetRepository.save(new Carnet(75.00,"FIT 90-DAYS",90L,categories,"Classic 90-day pass. Allows you to use the gym as well as any type of training available. Suggested option for those familiar with our clubs - save as much as $15 with this pass!"));
+		carnetRepository.save(new Carnet(45.00,"STUDENT 90-DAYS",90L,categories,"A 90-day pass for students. Allows you to use the gym as well as any type of training available. Suggested option for those familiar with our clubs - save as much as $15 with this pass! At the entrance to the gym you must your student ID card"));
 		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),carnet.getId()));
 	}
 }
