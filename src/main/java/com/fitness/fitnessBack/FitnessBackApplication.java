@@ -113,21 +113,30 @@ public class FitnessBackApplication {
 			trainerList.add(new Trainer("Jan", "Kowalski" + i, "emailTrener" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1)));
 		}
-		for (int i = 1; i <= 3; i++) {
-			categories.add(new Category("name" + i, null));
-		}
-		for (int i = 1; i <= 3; i++) {
-			rooms.add(new Room("name" + i, categories));
-		}
-		for (int i = 1; i <= 3; i++) {
-			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i,"95-00" + i, List.of(rooms.get(i-1))));
-		}
+		categories.add(new Category("Zumba", null));
+		categories.add(new Category("Box", null));
+		categories.add(new Category("Yoga", null));
+		categories.add(new Category("Stretching", null));
+
+		rooms.add(new Room("Large room", List.of(categories.get(0), categories.get(3))));
+		rooms.add(new Room("Boxing room", List.of(categories.get(1))));
+		rooms.add(new Room("Yoga room", List.of(categories.get(2))));
+		rooms.add(new Room("Large room", List.of(categories.get(0), categories.get(1))));
+		rooms.add(new Room("Small room", List.of(categories.get(3))));
+		rooms.add(new Room("Dance room", List.of(categories.get(0))));
+		rooms.add(new Room("Small room", List.of(categories.get(3))));
+		rooms.add(new Room("Yoga room", List.of(categories.get(2))));
+
+		clubs.add(new Club("FitNest Łódź Centrum", "Centrum", "Łódź", "Piotrkowska 55","95-001", List.of(rooms.get(0),rooms.get(1),rooms.get(2))));
+		clubs.add(new Club("FitNest Łódź Baluty", "Baluty", "Łódź", "Łagiewnicka 118","95-002" , List.of(rooms.get(3),rooms.get(4),rooms.get(5))));
+		clubs.add(new Club("FitNest Warszawa Centrum", "Centrum", "Warszawa", "Nowogrodzka 40","95-003" , List.of(rooms.get(6),rooms.get(7))));
+
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailEmployee" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1), clubs.get(i - 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			trainings.add(new Training(clubs.get(i-1), rooms.get(i-1).getCategoryList().get(i-1) ,rooms.get(i - 1), trainerList.get(i - 1),
+			trainings.add(new Training(clubs.get(i-1), clubs.get(i-1).getRooms().get(0).getCategoryList().get(0) ,clubs.get(i-1).getRooms().get(0), trainerList.get(i - 1),
 					10, 60L, ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
 		}
 
