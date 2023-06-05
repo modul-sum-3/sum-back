@@ -123,15 +123,24 @@ public class FitnessBackApplication {
 			trainerList.add(new Trainer("Jan", "Kowalski" + i, "emailTrener" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1)));
 		}
-		for (int i = 1; i <= 3; i++) {
-			categories.add(new Category("name" + i, null));
-		}
-		for (int i = 1; i <= 3; i++) {
-			rooms.add(new Room("name" + i, categories));
-		}
-		for (int i = 1; i <= 3; i++) {
-			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i,"95-00" + i, List.of(rooms.get(i-1))));
-		}
+		categories.add(new Category("Zumba", null));
+		categories.add(new Category("Box", null));
+		categories.add(new Category("Yoga", null));
+		categories.add(new Category("Stretching", null));
+
+		rooms.add(new Room("Large room", List.of(categories.get(1), categories.get(4))));
+		rooms.add(new Room("Boxing room", List.of(categories.get(2))));
+		rooms.add(new Room("Yoga room", List.of(categories.get(3))));
+		rooms.add(new Room("Large room", List.of(categories.get(1), categories.get(4))));
+		rooms.add(new Room("Small room", List.of(categories.get(4))));
+		rooms.add(new Room("Dance room", List.of(categories.get(1))));
+		rooms.add(new Room("Small room", List.of(categories.get(4))));
+		rooms.add(new Room("Yoga room", List.of(categories.get(3))));
+
+		clubs.add(new Club("FitNest Łódź Centrum", "Centrum", "Łódź", "Piotrkowska 55","95-001", List.of(rooms.get(0),rooms.get(1),rooms.get(2))));
+		clubs.add(new Club("FitNest Łódź Baluty", "Baluty", "Łódź", "Łagiewnicka 118","95-002" , List.of(rooms.get(3),rooms.get(4),rooms.get(5))));
+		clubs.add(new Club("FitNest Warszawa Centrum", "Centrum", "Warszawa", "Nowogrodzka 40","95-003" , List.of(rooms.get(6),rooms.get(7),rooms.get(8))));
+
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailEmployee" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1), clubs.get(i - 1)));
@@ -175,7 +184,10 @@ public class FitnessBackApplication {
 		trainings = trainingRepository.findAll();
 
 		visitRankingRepository.saveAll(visitRankings);
-		Carnet carnet = carnetRepository.save(new Carnet(60.00,30L,categories,"description"));
+		Carnet carnet = carnetRepository.save(new Carnet(30.00,"FIT CLASSIC",30L,categories,"Classic one-month pass. Allows you to use the gym as well as any type of training available. Suggested option for those who want to see if our gyms and workouts suit you."));
+		carnetRepository.save(new Carnet(20.00,"STUDENT CLASSIC",30L,categories,"One-month pass for students. Allows you to use the gym as well as any type of training available. Suggested option for those who want to see if our gyms and workouts suit you. At the entrance to the gym, you must show your student ID card"));
+		carnetRepository.save(new Carnet(75.00,"FIT 90-DAYS",90L,categories,"Classic 90-day pass. Allows you to use the gym as well as any type of training available. Suggested option for those familiar with our clubs - save as much as $15 with this pass!"));
+		carnetRepository.save(new Carnet(45.00,"STUDENT 90-DAYS",90L,categories,"A 90-day pass for students. Allows you to use the gym as well as any type of training available. Suggested option for those familiar with our clubs - save as much as $15 with this pass! At the entrance to the gym you must your student ID card"));
 		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),carnet.getId()));
 	}
 }
