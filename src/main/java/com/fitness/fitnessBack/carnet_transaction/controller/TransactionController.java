@@ -31,8 +31,12 @@ public class TransactionController {
         return transactionService.getOne(id);
     }
     @GetMapping("/client/{id}")
-    public List<CarnetTransaction> findByClient(@PathVariable(value = "id") UUID id, @AuthenticationPrincipal User user) {
-        return transactionService.findByClient(id, user);
+    public List<CarnetTransaction> findALLByClient(@PathVariable(value = "id") UUID id, @AuthenticationPrincipal User user) {
+        return transactionService.findAllByClient(id, user);
+    }
+    @GetMapping("/clientActive/{id}")
+    public CarnetTransaction findActiveByClient(@PathVariable(value = "id") UUID id, @AuthenticationPrincipal User user) {
+        return transactionService.findActiveByClient(id, user);
     }
     @GetMapping("/active")
     public List<CarnetTransaction> findBefore() {

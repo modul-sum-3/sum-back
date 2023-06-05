@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface TransactionRepository extends JpaRepository<CarnetTransaction, Long> {
     List<CarnetTransaction> findCarnetTransactionByExpireDateAfter(ZonedDateTime now);
+
     List<CarnetTransaction> findCarnetTransactionByClientID(Client clientID);
+    CarnetTransaction findCarnetTransactionByClientIDAndExpireDateAfter(Client clientID, ZonedDateTime now);
 }

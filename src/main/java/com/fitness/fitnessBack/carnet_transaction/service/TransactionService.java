@@ -42,7 +42,7 @@ public class TransactionService {
     public List<CarnetTransaction> findBefore(){
         return transactionRepository.findCarnetTransactionByExpireDateAfter(ZonedDateTime.now());
     }
-    public List<CarnetTransaction> findByClient(UUID id, User user) {
+    public List<CarnetTransaction> findAllByClient(UUID id, User user) {
         List<CarnetTransaction> list = transactionRepository.findCarnetTransactionByClientID(clientRepository.findById(id).orElseThrow());
         if(id.equals(user.getId())) {
             return list;
@@ -52,14 +52,38 @@ public class TransactionService {
         }
         throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't see Transaction!");
     }
+
+    public CarnetTransaction findActiveByClient(UUID id, User user) {
+        CarnetTransaction list = transactionRepository.findCarnetTransactionByClientIDAndExpireDateAfter(clientRepository.findById(id).orElseThrow(),ZonedDateTime.now());
+        if(list == null){
+            throw new ResponseStatusException(HttpStatus.EXPECTATION_FAILED, "User don't have active carnet!");
+        }
+        if (id.equals(user.getId())) {
+            return list;
+        }
+        if (user.getRole().equals(Role.EMPLOYEE) || user.getRole().equals(Role.MANAGER)) {
+            return list;
+        }
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't see Transaction!");
+
+
+    }
+
     public ResponseEntity<?> saveTransaction(CarnetTransaction carnetTransaction, User user) {
-        Client client = clientRepository.findById(user.getId()).get();
+        Client client = clientRepository.findById(carnetTransaction.getClientID().getId()).orElseThrow();
+        if(!user.getRole().equals(Role.EMPLOYEE) && !user.getRole().equals(Role.MANAGER) && !user.getId().equals(client.getId())) {
+            return ResponseEntity.badRequest().body("You can't bought this carnet!");
+        }
         Carnet choose = carnetRepository.findById(carnetTransaction.getCarnetID()).get();
+        if(!(transactionRepository.findCarnetTransactionByClientIDAndExpireDateAfter(client,ZonedDateTime.now()) == null)) {
+            return ResponseEntity.badRequest().body("User have active carnet!");
+        }
         carnetTransaction.setPrice(choose.getPrice());
         if(client.getBalance() < carnetTransaction.getPrice()) {
             return ResponseEntity.badRequest().body("You can't afford this carnet!");
         }
         client.setBalance(client.getBalance() - carnetTransaction.getPrice());
+        carnetTransaction.setExpireDate(carnetTransaction.getTransactionDate().plus(choose.getDuration(),ChronoUnit.DAYS));
         carnetTransaction.setClientID(client);
         carnetTransaction.setTransactionDate(carnetTransaction.getTransactionDate().plus(choose.getDuration(),ChronoUnit.DAYS));
         transactionRepository.save(carnetTransaction);
