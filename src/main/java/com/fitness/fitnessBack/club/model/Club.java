@@ -1,9 +1,12 @@
 package com.fitness.fitnessBack.club.model;
 
+import com.fitness.fitnessBack.room.model.Room;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Table(name = "Club")
@@ -19,9 +22,17 @@ public class Club {
     private String name;
 
     @NotBlank
-    @NotEmpty(message = "country can't be empty")
-    @Column(name = "country", nullable = false)
-    private String country;
+    @NotEmpty(message = "location can't be empty")
+    @Column(name = "location", nullable = false)
+    private String location;
+
+    @NotBlank
+    @NotEmpty(message = "zip-code can't be empty")
+    @Column(name = "zip-code", nullable = false)
+    private String zip;
+
+    @OneToMany
+    private List<Room> rooms;
 
     @NotBlank
     @NotEmpty(message = "city can't be empty")
@@ -41,9 +52,11 @@ public class Club {
     @NotEmpty(message = "Close time can't be empty")
     private String closeTime;
 
-    public Club(String name, String country, String city, String street) {
+    public Club(String name, String location, String city, String street,String zip,List<Room> rooms) {
+        this.rooms = rooms;
         this.name = name;
-        this.country = country;
+        this.location = location;
+        this.zip = zip;
         this.city = city;
         this.street = street;
         this.openTime = "8:00";

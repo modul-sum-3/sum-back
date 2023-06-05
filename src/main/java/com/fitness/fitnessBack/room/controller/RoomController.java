@@ -29,8 +29,12 @@ public class RoomController {
     }
 
     @PostMapping
-    public Room saveRoom(@Valid @RequestBody Room room) {
-        return roomService.saveRoom(room);
+    public Room saveRoom(@RequestParam Long clubId ,@Valid @RequestBody Room room) {
+        return roomService.saveRoom(room, clubId);
+    }
+    @PatchMapping("/addCategory")
+    public Room addCategory(@RequestParam Long roomId,@RequestParam Long categoryId){
+        return roomService.addCategory(roomId,categoryId);
     }
 
     @DeleteMapping("/{id}")

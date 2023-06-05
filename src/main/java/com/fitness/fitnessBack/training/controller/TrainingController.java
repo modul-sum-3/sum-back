@@ -62,9 +62,13 @@ public class TrainingController {
         return trainingService.saveTraining(training);
     }
 
-    @PostMapping("/client")
-    public Training addClient(@RequestParam Long TrainingID, @Valid @RequestBody Client client) {
+    @PostMapping("/addClient")
+    public Training addClient(@RequestParam Long TrainingID, @RequestBody Client client) {
         return trainingService.addClient(TrainingID, client);
+    }
+    @PatchMapping("/removeClient")
+    public Training removeClient(@RequestParam Long TrainingID, @RequestBody Client client) {
+        return trainingService.RemoveClient(TrainingID, client);
     }
 
     @DeleteMapping("/{id}")

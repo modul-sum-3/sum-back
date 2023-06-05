@@ -10,6 +10,7 @@ import com.fitness.fitnessBack.carnet_transaction.repository.TransactionReposito
 import com.fitness.fitnessBack.carnets.model.Carnet;
 import com.fitness.fitnessBack.carnets.repository.CarnetRepository;
 import com.fitness.fitnessBack.client.model.Client;
+import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.club.model.Club;
 import com.fitness.fitnessBack.club.repository.ClubRepository;
 import com.fitness.fitnessBack.employee.model.EmployeePass;
@@ -33,6 +34,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -42,6 +44,7 @@ import java.util.List;
 
 @SpringBootApplication
 @EnableMongoRepositories
+@EnableScheduling
 public class FitnessBackApplication {
 
 
@@ -71,6 +74,9 @@ public class FitnessBackApplication {
 
 	@Autowired
 	private TrainingService trainingService;
+
+	@Autowired
+	private ClientRepository clientRepository;
 
 	@Autowired
 	private TransactionRepository transactionRepository;
@@ -108,24 +114,20 @@ public class FitnessBackApplication {
 					LocalDate.of(1999, i, 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i));
+			categories.add(new Category("name" + i, null));
 		}
 		for (int i = 1; i <= 3; i++) {
-			rooms.add(new Room("name" + i, clubs.get(1)));
+			rooms.add(new Room("name" + i, categories));
 		}
 		for (int i = 1; i <= 3; i++) {
-			categories.add(new Category("name" + i, rooms, icons));
+			clubs.add(new Club("name" + i, "country" + i, "city" + i, "street" + i,"95-00" + i, List.of(rooms.get(i-1))));
 		}
 		for (int i = 1; i <= 3; i++) {
 			employees.add(new Employee("Karol", "Kowalski" + i, "emailEmployee" + i + "@google.com", "0000000",
 					LocalDate.of(1999, i, 1), clubs.get(i - 1)));
 		}
 		for (int i = 1; i <= 3; i++) {
-			clients.add(new Client("Karol", "Kowalski" + i, "+48000100100", "emailKlienta" + i + "@google.com",
-					LocalDate.of(1999, i, 1)));
-		}
-		for (int i = 1; i <= 3; i++) {
-			trainings.add(new Training(clubs.get(0), rooms.get(i - 1), trainerList.get(i - 1), categories.get(i - 1),
+			trainings.add(new Training(clubs.get(i-1), rooms.get(i-1).getCategoryList().get(i-1) ,rooms.get(i - 1), trainerList.get(i - 1),
 					10, 60L, ZonedDateTime.of(2024, 1, i, 10 + i, 10, 0, 0, ZoneId.of("Z"))));
 		}
 
@@ -137,24 +139,31 @@ public class FitnessBackApplication {
 
 	@EventListener
 	public void onReady(ApplicationReadyEvent e) {
-		saveList();
+		for (int i = 1; i <= 3; i++) {
+			clients.add(new Client("Karol", "Kowalski" + i, "+48000100100", "emailKlienta" + i + "@google.com",
+					LocalDate.of(1999, i, 1)));
+		}
 		for (int i = 0; i < 3; i++) {
 			authenticationServiceService.register(new RegisterRequest(clients.get(i), password));
 		}
-
+		clients = clientRepository.findAll() ;
+		saveList();
 		for (int i = 0; i < 10; i++) {
 			trainerService.saveTrainer(new TrainerPass(trainerList.get(i), password));
 		}
+		categoryRepository.saveAll(categories);
+		roomRepository.saveAll(rooms);
 		clubRepository.saveAll(clubs);
 		for (int i = 0; i < 3; i++) {
 			employeeService.saveEmployee(new EmployeePass(employees.get(i), password));
 		}
-		roomRepository.saveAll(rooms);
-		categoryRepository.saveAll(categories);
 		trainingRepository.saveAll(trainings);
+
 		for (int i = 0; i < 3; i++) {
 			trainingService.addClient(1L, clients.get(i));
 		}
+		trainings = trainingRepository.findAll();
+
 		visitRankingRepository.saveAll(visitRankings);
 		Carnet carnet = carnetRepository.save(new Carnet(60.00,30L,categories,"description"));
 		transactionRepository.save(new CarnetTransaction(ZonedDateTime.now(),clients.get(0),carnet.getId()));
