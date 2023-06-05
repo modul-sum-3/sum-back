@@ -24,9 +24,9 @@ public class Carnet {
 
     private String description;
 
-    public Carnet(Double price, Long duration, List<Category> access_categories,String description) {
+    public Carnet(Double price,String name, Long duration, List<Category> access_categories,String description) {
         this.price = price;
-        this.name = "name";
+        this.name = name;
         this.access_categories = access_categories;
         this.duration = duration;
         this.description = description;
