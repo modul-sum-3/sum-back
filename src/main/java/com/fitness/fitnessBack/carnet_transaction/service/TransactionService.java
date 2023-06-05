@@ -43,8 +43,12 @@ public class TransactionService {
         return transactionRepository.findCarnetTransactionByExpireDateAfter(ZonedDateTime.now());
     }
     public List<CarnetTransaction> findByClient(UUID id, User user) {
+        List<CarnetTransaction> list = transactionRepository.findCarnetTransactionByClientID(clientRepository.findById(id).orElseThrow());
+        if(id.equals(user.getId())) {
+            return list;
+        }
         if(user.getRole().equals(Role.EMPLOYEE) || user.getRole().equals(Role.MANAGER)) {
-            return transactionRepository.findCarnetTransactionByClientID(clientRepository.findById(id).orElseThrow());
+            return list;
         }
         throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't see Transaction!");
     }
