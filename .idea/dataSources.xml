@@ -22,5 +22,15 @@
       <jdbc-url>jdbc:postgresql://34.88.37.51:5432/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="@localhost Google" uuid="8d7529d7-753f-4033-95a4-e7e17a170b0d">
+      <driver-ref>sqlserver.ms</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</jdbc-driver>
+      <jdbc-url>jdbc:sqlserver://34.88.161.67:1433;database=fitness</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="encrypt" value="False" />
+      </driver-properties>
+    </data-source>
   </component>
 </project>
