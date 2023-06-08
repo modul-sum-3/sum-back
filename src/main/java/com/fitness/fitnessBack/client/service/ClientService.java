@@ -42,4 +42,24 @@ public class ClientService {
         clientRepository.save(result);
         return ResponseEntity.ok("Added to Balance: " + amount.toString());
     }
+    public Client changeClient(UUID id,Client client) {
+        Client result = clientRepository.findById(id).orElseThrow();
+        if(client.getFirst_name() != "" || client.getFirst_name() != null) {
+            result.setFirst_name(client.getFirst_name());
+        }
+        if(client.getLast_name() != "" || client.getLast_name() != null) {
+            result.setLast_name(client.getLast_name());
+        }
+        if(client.getDate_of_birth() != null) {
+            result.setDate_of_birth(client.getDate_of_birth());
+        }
+        if(client.getPhoneNumber() != null || client.getPhoneNumber() != "") {
+            result.setPhoneNumber(client.getPhoneNumber());
+        }
+        if(client.getGender() != null) {
+            result.setGender(client.getGender());
+        }
+        return clientRepository.save(result);
+
+    }
 }
