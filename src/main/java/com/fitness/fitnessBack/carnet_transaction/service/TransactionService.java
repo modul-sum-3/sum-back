@@ -85,7 +85,6 @@ public class TransactionService {
         client.setBalance(client.getBalance() - carnetTransaction.getPrice());
         carnetTransaction.setExpireDate(carnetTransaction.getTransactionDate().plus(choose.getDuration(),ChronoUnit.DAYS));
         carnetTransaction.setClientID(client);
-        carnetTransaction.setTransactionDate(carnetTransaction.getTransactionDate().plus(choose.getDuration(),ChronoUnit.DAYS));
         transactionRepository.save(carnetTransaction);
         return ResponseEntity.ok().body(carnetTransaction);
     }

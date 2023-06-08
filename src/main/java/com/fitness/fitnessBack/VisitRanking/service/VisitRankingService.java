@@ -8,8 +8,10 @@ import com.fitness.fitnessBack.client.repository.ClientRepository;
 import com.fitness.fitnessBack.training.model.Training;
 import com.fitness.fitnessBack.training.repository.TrainingRepository;
 import lombok.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -40,12 +42,17 @@ public class VisitRankingService {
     }
 
     public VisitRanking startVisitRanking(VisitRanking ranking) {
-        Training training = trainingRepository.findById(ranking.getTraining().getId()).orElseThrow();
+        Optional<Training> training = trainingRepository.findById(ranking.getTraining().getId());
         Client client = clientRepository.findById(ranking.getClient().getId()).orElseThrow();
-        for(Client c : training.getClients()) {
-            if (client.getId().equals(c.getId())) {
-                ranking.setTraining(training);
-                return visitRankingRepository.save(ranking);
+        if(findByClientID(client.getId()).isPresent()) {
+           throw new ResponseStatusException(HttpStatus.CONFLICT, "Client have active Visit!");
+        }
+        if (training.isPresent()) {
+            for (Client c : training.get().getClients()) {
+                if (client.getId().equals(c.getId())) {
+                    ranking.setTraining(training.get());
+                    return visitRankingRepository.save(ranking);
+                }
             }
         }
         ranking.setTraining(null);

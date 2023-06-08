@@ -118,8 +118,8 @@ public class TrainingService {
                 ZonedDateTime tEndTime = tStartTime.plus(t.getDuration(), ChronoUnit.MINUTES);
 
                 if (tStartTime.isBefore(endTime) && tEndTime.isAfter(startTime)) {
-                    throw new ResponseStatusException(HttpStatus.CONFLICT, "Room is busy during this time!");
                 }
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Room is busy during this time!");
             }
         }
 
