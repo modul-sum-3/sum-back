@@ -33,6 +33,11 @@ public class ClientController {
         return clientService.addBalace(id, amount);
     }
 
+    @PatchMapping ("/{id}")
+    public Client changeClient(@PathVariable(value = "id") UUID id ,@RequestBody Client client) {
+        return clientService.changeClient(id,client);
+    }
+
     @DeleteMapping("/{id}")
     public Client deleteClient(@PathVariable(value = "id") UUID id) {
         return clientService.deleteClient(id);
